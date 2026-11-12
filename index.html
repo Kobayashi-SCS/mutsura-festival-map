@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>六浦祭2026 校内マップ</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      color: #fff;
+      background: #172b35;
+    }
+
+    header {
+      text-align: center;
+      padding: 28px 16px;
+      background: #203e4b;
+      border-bottom: 4px solid #e5bd70;
+    }
+
+    header h1 {
+      margin: 0;
+      color: #f5d58e;
+      letter-spacing: 3px;
+    }
+
+    header p { margin-bottom: 0; color: #d5e3e5; }
+
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 24px 16px;
+    }
+
+    .map-title {
+      text-align: center;
+      color: #f5d58e;
+    }
+
+    .map {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      padding: 18px;
+      background: #29434a;
+      border: 3px solid #668078;
+      border-radius: 14px;
+    }
+
+    .building {
+      min-height: 115px;
+      border: 3px solid #e5bd70;
+      border-radius: 10px;
+      background: #496c65;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 16px 8px;
+      box-shadow: 0 5px 0 #1b3435;
+    }
+
+    .building:hover {
+      background: #638b7d;
+      transform: translateY(-2px);
+    }
+
+    .building span {
+      display: block;
+      margin-top: 9px;
+      font-size: 12px;
+      font-weight: normal;
+      color: #f5e5bd;
+    }
+
+    .panel {
+      display: none;
+      margin-top: 24px;
+      padding: 22px;
+      background: #203e4b;
+      border: 2px solid #e5bd70;
+      border-radius: 12px;
+    }
+
+    .panel h2 { color: #f5d58e; }
+
+    .floor-button, .back-button {
+      margin: 5px;
+      padding: 10px 16px;
+      border: 1px solid #e5bd70;
+      border-radius: 7px;
+      background: #496c65;
+      color: white;
+      cursor: pointer;
+    }
+
+    #floor-info {
+      margin-top: 16px;
+      padding: 15px;
+      background: #172b35;
+      border-radius: 8px;
+      line-height: 1.8;
+    }
+
+    footer {
+      text-align: center;
+      padding: 22px;
+      color: #b9c9c9;
+      font-size: 12px;
+    }
+
+    @media (max-width: 500px) {
+      .map { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>六浦祭 2026</h1>
+    <p>AMBITION MAP — 校内案内</p>
+  </header>
+
+  <main>
+    <h2 class="map-title">◆ CAMPUS MAP ◆</h2>
+    <p style="text-align:center;">建物を選択して、校内を探索しよう！</p>
+
+    <section class="map">
+      <button class="building" onclick="openBuilding('2号館')">
+        2号館 <span>BUILDING 02</span>
+      </button>
+      <button class="building" onclick="openBuilding('高校校舎')">
+        高校校舎 <span>HIGH SCHOOL</span>
+      </button>
+      <button class="building" onclick="openBuilding('4号館')">
+        4号館 <span>BUILDING 04</span>
+      </button>
+      <button class="building" onclick="openBuilding('中学校舎')">
+        中学校舎 <span>JUNIOR HIGH</span>
+      </button>
+      <button class="building" onclick="openBuilding('本館')">
+        本館 <span>MAIN BUILDING</span>
+      </button>
+      <button class="building" onclick="openBuilding('礼拝堂')">
+        礼拝堂 <span>CHAPEL</span>
+      </button>
+    </section>
+
+    <section class="panel" id="building-panel">
+      <h2 id="building-name"></h2>
+      <p>探索する階を選択してください。</p>
+      <div id="floor-buttons"></div>
+      <div id="floor-info">階を選ぶと、教室情報が表示されます。</div>
+      <button class="back-button" onclick="closeBuilding()">← マップに戻る</button>
+    </section>
+  </main>
+
+  <footer>六浦祭2026 校内マップ</footer>
+
+  <script>
+    function openBuilding(name) {
+      document.getElementById("building-panel").style.display = "block";
+      document.getElementById("building-name").textContent = name;
+
+      const buttons = document.getElementById("floor-buttons");
+      buttons.innerHTML = "";
+
+      ["1階", "2階", "3階"].forEach(floor => {
+        const button = document.createElement("button");
+        button.className = "floor-button";
+        button.textContent = floor;
+        button.onclick = () => showFloor(name, floor);
+        buttons.appendChild(button);
+      });
+
+      document.getElementById("floor-info").textContent =
+        "階を選ぶと、教室情報が表示されます。";
+    }
+
+    function showFloor(name, floor) {
+      document.getElementById("floor-info").textContent =
+        name + " " + floor + " の教室情報は、これから追加します。";
+    }
+
+    function closeBuilding() {
+      document.getElementById("building-panel").style.display = "none";
+    }
+  </script>
+</body>
+</html>
