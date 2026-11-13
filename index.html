@@ -246,7 +246,7 @@ main {
   text-shadow: 1px 1px 3px #386c32;
 }
 
-/* 建物の階別画面 */
+/* 校舎の階別画面 */
 .floor-page {
   display: none;
   padding: 20px;
@@ -273,6 +273,7 @@ main {
   font-size: 28px;
 }
 
+/* 階数ボタン */
 .floor-buttons {
   display: flex;
   justify-content: center;
@@ -298,20 +299,31 @@ main {
   border-color: #315e61;
 }
 
-/* 間取り表示エリア */
+/* 間取り画像 */
 .floor-content {
   width: 100%;
   min-height: 330px;
-  padding: 25px;
+  padding: 10px;
   background: white;
   border: 2px solid #a4aaa2;
   border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.floor-content img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 75vh;
+  object-fit: contain;
+}
+
+.floor-placeholder {
   text-align: center;
-  font-size: 18px;
   color: #555;
+  font-size: 18px;
 }
 
 /* スマホ対応 */
@@ -344,6 +356,10 @@ main {
   .floor-page h2 {
     font-size: 22px;
   }
+
+  .floor-content {
+    padding: 4px;
+  }
 }
 </style>
 </head>
@@ -357,7 +373,7 @@ main {
 
 <main>
 
-  <!-- 全体マップ画面 -->
+  <!-- 全体マップ -->
   <div id="map-page">
 
     <div class="toolbar">
@@ -471,31 +487,21 @@ function setMapMode(mode) {
 /* 建物をクリックしたとき */
 function openBuilding(name) {
 
-  /* 本館 */
   if (name === "本館") {
     alert("文化祭当日は立ち入りできません。");
     return;
   }
 
-  /* 礼拝堂 */
   if (name === "礼拝堂") {
     alert("礼拝堂には階層がありません。");
     return;
   }
 
-  /* 体育館 */
-  if (name === "体育館") {
-    alert("体育館の内部表示はありません。");
+  if (name === "体育館" || name === "グラウンド") {
+    alert(name + "の内部表示はありません。");
     return;
   }
 
-  /* グラウンド */
-  if (name === "グラウンド") {
-    alert("グラウンドの内部表示はありません。");
-    return;
-  }
-
-  /* 校舎以外は処理しない */
   if (!buildingFloors[name]) {
     return;
   }
@@ -503,13 +509,9 @@ function openBuilding(name) {
   currentBuilding = name;
   currentFloor = 1;
 
-  /* 全体マップを隠す */
   document.getElementById("map-page").style.display = "none";
-
-  /* 階別画面を表示 */
   document.getElementById("floor-page").style.display = "block";
 
-  /* 最初は1階を表示 */
   showFloor(name, 1);
 }
 
@@ -526,7 +528,6 @@ function showFloor(name, floor) {
   const buttons = document.getElementById("floor-buttons");
   buttons.innerHTML = "";
 
-  /* 階数ボタンを作成 */
   for (let i = 1; i <= buildingFloors[name]; i++) {
 
     const button = document.createElement("button");
@@ -544,15 +545,31 @@ function showFloor(name, floor) {
     buttons.appendChild(button);
   }
 
-  /* 間取り表示 */
   const content = document.getElementById("floor-content");
 
+  /* 中学校舎の間取り画像 */
   if (name === "中学校舎") {
-    content.textContent =
-      "中学校舎 " + floor + "F の間取りをここに表示します。";
+
+    const image = document.createElement("img");
+
+    image.src = "images/middle-" + floor + "f.png";
+    image.alt = "中学校舎 " + floor + "F の間取り";
+
+    image.onerror = function() {
+      content.innerHTML =
+        '<div class="floor-placeholder">間取り画像を読み込めませんでした。imagesフォルダと画像ファイル名を確認してください。</div>';
+    };
+
+    content.innerHTML = "";
+    content.appendChild(image);
+
   } else {
-    content.textContent =
-      name + " " + floor + "F の間取りは準備中です。";
+
+    content.innerHTML =
+      '<div class="floor-placeholder">' +
+      name + " " + floor + "F の間取りは準備中です。" +
+      '</div>';
+
   }
 }
 
@@ -561,8 +578,8 @@ function showFloor(name, floor) {
 function backToMap() {
 
   document.getElementById("floor-page").style.display = "none";
-
   document.getElementById("map-page").style.display = "block";
+
 }
 
 </script>
