@@ -2,192 +2,275 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>六浦祭2026 校内マップ</title>
-  <style>
-    * { box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>六浦祭2026 校内マップ</title>
+<style>
+* { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      color: #fff;
-      background: #172b35;
-    }
+body {
+  margin: 0;
+  color: #fff;
+  font-family: sans-serif;
+  background: #172d35;
+}
 
-    header {
-      text-align: center;
-      padding: 28px 16px;
-      background: #203e4b;
-      border-bottom: 4px solid #e5bd70;
-    }
+header {
+  text-align: center;
+  padding: 24px 12px;
+  background: #203e4b;
+  border-bottom: 4px solid #e5bd70;
+}
 
-    header h1 {
-      margin: 0;
-      color: #f5d58e;
-      letter-spacing: 3px;
-    }
+header h1 {
+  margin: 0;
+  color: #f5d58e;
+  letter-spacing: 3px;
+}
 
-    header p { margin-bottom: 0; color: #d5e3e5; }
+header p { margin-bottom: 0; }
 
-    main {
-      max-width: 900px;
-      margin: auto;
-      padding: 24px 16px;
-    }
+main {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px 12px;
+}
 
-    .map-title {
-      text-align: center;
-      color: #f5d58e;
-    }
+h2 {
+  text-align: center;
+  color: #f5d58e;
+}
 
-    .map {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-      padding: 18px;
-      background: #29434a;
-      border: 3px solid #668078;
-      border-radius: 14px;
-    }
+.map-frame {
+  padding: 12px;
+  border: 3px solid #d5bd79;
+  border-radius: 14px;
+  background: #284c3e;
+  box-shadow: 0 8px 0 #102a25;
+}
 
-    .building {
-      min-height: 115px;
-      border: 3px solid #e5bd70;
-      border-radius: 10px;
-      background: #496c65;
-      color: white;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-      padding: 16px 8px;
-      box-shadow: 0 5px 0 #1b3435;
-    }
+.map {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1365 / 768;
+  overflow: hidden;
+  border: 3px solid #42664a;
+  border-radius: 8px;
+  background:
+    radial-gradient(ellipse, #73965a 1%, transparent 70%),
+    repeating-linear-gradient(45deg, #527b4c 0 20px, #5b8552 20px 40px);
+}
 
-    .building:hover {
-      background: #638b7d;
-      transform: translateY(-2px);
-    }
+.path {
+  position: absolute;
+  background: #d8c69a;
+  border: 2px solid #a9956d;
+  border-radius: 20px;
+  opacity: .95;
+}
 
-    .building span {
-      display: block;
-      margin-top: 9px;
-      font-size: 12px;
-      font-weight: normal;
-      color: #f5e5bd;
-    }
+.path.horizontal {
+  left: 12%;
+  top: 47%;
+  width: 76%;
+  height: 8%;
+}
 
-    .panel {
-      display: none;
-      margin-top: 24px;
-      padding: 22px;
-      background: #203e4b;
-      border: 2px solid #e5bd70;
-      border-radius: 12px;
-    }
+.path.vertical {
+  left: 47%;
+  top: 28%;
+  width: 7%;
+  height: 66%;
+}
 
-    .panel h2 { color: #f5d58e; }
+.building {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border: 3px solid rgba(45, 45, 45, .75);
+  border-radius: 5px;
+  color: #26323a;
+  font-size: clamp(10px, 2vw, 24px);
+  font-weight: bold;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+  cursor: pointer;
+  box-shadow: 7px 8px 0 rgba(0,0,0,.35);
+  transition: transform .15s, filter .15s;
+  z-index: 2;
+}
 
-    .floor-button, .back-button {
-      margin: 5px;
-      padding: 10px 16px;
-      border: 1px solid #e5bd70;
-      border-radius: 7px;
-      background: #496c65;
-      color: white;
-      cursor: pointer;
-    }
+.building:hover {
+  transform: translateY(-5px);
+  filter: brightness(1.1);
+}
 
-    #floor-info {
-      margin-top: 16px;
-      padding: 15px;
-      background: #172b35;
-      border-radius: 8px;
-      line-height: 1.8;
-    }
+.building small {
+  margin-top: 6px;
+  font-size: clamp(7px, 1vw, 12px);
+}
 
-    footer {
-      text-align: center;
-      padding: 22px;
-      color: #b9c9c9;
-      font-size: 12px;
-    }
+.b2 {
+  left: 16.3%; top: 2.8%;
+  width: 34.8%; height: 27.5%;
+  background: #f5df9e;
+}
 
-    @media (max-width: 500px) {
-      .map { grid-template-columns: 1fr; }
-    }
-  </style>
+.high {
+  left: 51.7%; top: 3.7%;
+  width: 34.4%; height: 27%;
+  background: #e9aaaa;
+}
+
+.b4 {
+  left: 2.2%; top: 28%;
+  width: 10.6%; height: 64%;
+  background: #b7a6d8;
+}
+
+.middle {
+  left: 15.4%; top: 67%;
+  width: 35.2%; height: 26%;
+  background: #c5dfbd;
+}
+
+.main-building {
+  left: 56.8%; top: 67.5%;
+  width: 28.6%; height: 24%;
+  background: #a9c5eb;
+}
+
+.chapel {
+  left: 79.1%; top: 35%;
+  width: 19.7%; height: 60%;
+  background: #f3bd8b;
+}
+
+.panel {
+  display: none;
+  margin-top: 24px;
+  padding: 20px;
+  background: #203e4b;
+  border: 2px solid #e5bd70;
+  border-radius: 12px;
+}
+
+.panel h2 { color: #f5d58e; }
+
+.floor-button, .back-button {
+  margin: 5px;
+  padding: 10px 16px;
+  border: 1px solid #e5bd70;
+  border-radius: 7px;
+  background: #496c65;
+  color: white;
+  cursor: pointer;
+}
+
+#floor-info {
+  margin: 16px 0;
+  padding: 15px;
+  background: #172b35;
+  border-radius: 8px;
+  line-height: 1.8;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #b9c9c9;
+}
+</style>
 </head>
+
 <body>
-  <header>
-    <h1>六浦祭 2026</h1>
-    <p>AMBITION MAP — 校内案内</p>
-  </header>
+<header>
+  <h1>六浦祭 2026</h1>
+  <p>AMBITION MAP — 校内案内</p>
+</header>
 
-  <main>
-    <h2 class="map-title">◆ CAMPUS MAP ◆</h2>
-    <p style="text-align:center;">建物を選択して、校内を探索しよう！</p>
+<main>
+  <h2>◆ CAMPUS MAP ◆</h2>
+  <p style="text-align:center">建物を選択して、校内を探索しよう！</p>
 
-    <section class="map">
-      <button class="building" onclick="openBuilding('2号館')">
-        2号館 <span>BUILDING 02</span>
+  <div class="map-frame">
+    <div class="map">
+      <div class="path horizontal"></div>
+      <div class="path vertical"></div>
+
+      <button class="building b2" onclick="openBuilding('2号館')">
+        2号館<small>BUILDING 02</small>
       </button>
-      <button class="building" onclick="openBuilding('高校校舎')">
-        高校校舎 <span>HIGH SCHOOL</span>
+
+      <button class="building high" onclick="openBuilding('高校校舎')">
+        高校校舎<small>HIGH SCHOOL</small>
       </button>
-      <button class="building" onclick="openBuilding('4号館')">
-        4号館 <span>BUILDING 04</span>
+
+      <button class="building b4" onclick="openBuilding('4号館')">
+        4号館<small>BUILDING 04</small>
       </button>
-      <button class="building" onclick="openBuilding('中学校舎')">
-        中学校舎 <span>JUNIOR HIGH</span>
+
+      <button class="building middle" onclick="openBuilding('中学校舎')">
+        中学校舎<small>JUNIOR HIGH</small>
       </button>
-      <button class="building" onclick="openBuilding('本館')">
-        本館 <span>MAIN BUILDING</span>
+
+      <button class="building main-building" onclick="openBuilding('本館')">
+        本館<small>MAIN BUILDING</small>
       </button>
-      <button class="building" onclick="openBuilding('礼拝堂')">
-        礼拝堂 <span>CHAPEL</span>
+
+      <button class="building chapel" onclick="openBuilding('礼拝堂')">
+        礼拝堂<small>CHAPEL</small>
       </button>
-    </section>
+    </div>
+  </div>
 
-    <section class="panel" id="building-panel">
-      <h2 id="building-name"></h2>
-      <p>探索する階を選択してください。</p>
-      <div id="floor-buttons"></div>
-      <div id="floor-info">階を選ぶと、教室情報が表示されます。</div>
-      <button class="back-button" onclick="closeBuilding()">← マップに戻る</button>
-    </section>
-  </main>
+  <section class="panel" id="building-panel">
+    <h2 id="building-name"></h2>
+    <p>探索する階を選択してください。</p>
+    <div id="floor-buttons"></div>
+    <div id="floor-info">
+      階を選ぶと、教室情報が表示されます。
+    </div>
+    <button class="back-button" onclick="closeBuilding()">
+      ← マップに戻る
+    </button>
+  </section>
+</main>
 
-  <footer>六浦祭2026 校内マップ</footer>
+<footer>六浦祭2026 校内マップ</footer>
 
-  <script>
-    function openBuilding(name) {
-      document.getElementById("building-panel").style.display = "block";
-      document.getElementById("building-name").textContent = name;
+<script>
+function openBuilding(name) {
+  const panel = document.getElementById("building-panel");
+  panel.style.display = "block";
+  document.getElementById("building-name").textContent = name;
 
-      const buttons = document.getElementById("floor-buttons");
-      buttons.innerHTML = "";
+  const buttons = document.getElementById("floor-buttons");
+  buttons.innerHTML = "";
 
-      ["1階", "2階", "3階"].forEach(floor => {
-        const button = document.createElement("button");
-        button.className = "floor-button";
-        button.textContent = floor;
-        button.onclick = () => showFloor(name, floor);
-        buttons.appendChild(button);
-      });
+  ["1階", "2階", "3階"].forEach(floor => {
+    const button = document.createElement("button");
+    button.className = "floor-button";
+    button.textContent = floor;
+    button.onclick = () => showFloor(name, floor);
+    buttons.appendChild(button);
+  });
 
-      document.getElementById("floor-info").textContent =
-        "階を選ぶと、教室情報が表示されます。";
-    }
+  document.getElementById("floor-info").textContent =
+    "階を選ぶと、教室情報が表示されます。";
 
-    function showFloor(name, floor) {
-      document.getElementById("floor-info").textContent =
-        name + " " + floor + " の教室情報は、これから追加します。";
-    }
+  panel.scrollIntoView({ behavior: "smooth" });
+}
 
-    function closeBuilding() {
-      document.getElementById("building-panel").style.display = "none";
-    }
-  </script>
+function showFloor(name, floor) {
+  document.getElementById("floor-info").textContent =
+    name + " " + floor + " の教室情報は、これから追加します。";
+}
+
+function closeBuilding() {
+  document.getElementById("building-panel").style.display = "none";
+}
+</script>
 </body>
 </html>
