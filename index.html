@@ -79,6 +79,59 @@ main {
   border-radius: 0;
   overflow-y: auto;
 }
+
+  html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+header {
+  display: none !important;
+}
+
+main {
+  width: 100vw !important;
+  height: 100dvh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#mapScreen {
+  position: fixed;
+  inset: 0;
+  width: 100vw !important;
+  height: 100dvh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+#mapArea {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+#campusMap {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.map-toolbar {
+  position: absolute;
+  z-index: 10;
+  top: 10px;
+  left: 10px;
+  margin: 0;
+}
   
 <style>
 * { box-sizing: border-box; }
