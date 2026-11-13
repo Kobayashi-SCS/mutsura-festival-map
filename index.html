@@ -241,24 +241,55 @@ footer {
 <footer>六浦祭2026 校内マップ</footer>
 
 <script>
+const buildingFloors = {
+  "2号館": 4,
+  "高校校舎": 3,
+  "4号館": 3,
+  "中学校舎": 4
+};
+
 function openBuilding(name) {
   const panel = document.getElementById("building-panel");
-  panel.style.display = "block";
-  document.getElementById("building-name").textContent = name;
-
+  const title = document.getElementById("building-name");
   const buttons = document.getElementById("floor-buttons");
+  const info = document.getElementById("floor-info");
+  const description = panel.querySelector("p");
+
+  panel.style.display = "block";
+  title.textContent = name;
   buttons.innerHTML = "";
 
-  ["1階", "2階", "3階"].forEach(floor => {
-    const button = document.createElement("button");
-    button.className = "floor-button";
-    button.textContent = floor;
-    button.onclick = () => showFloor(name, floor);
-    buttons.appendChild(button);
-  });
+  // 本館：立入禁止
+  if (name === "本館") {
+    description.textContent = "文化祭当日は立ち入りできません。";
+    info.textContent = "この建物は立入禁止です。";
+  }
 
-  document.getElementById("floor-info").textContent =
-    "階を選ぶと、教室情報が表示されます。";
+  // 礼拝堂：階層なし
+  else if (name === "礼拝堂") {
+    description.textContent = "礼拝堂の案内";
+    info.textContent = "礼拝堂には階層がありません。";
+  }
+
+  // その他の校舎：階を選択
+  else {
+    description.textContent = "探索する階を選択してください。";
+
+    const floorCount = buildingFloors[name];
+
+    for (let i = 1; i <= floorCount; i++) {
+      const floor = i + "階";
+      const button = document.createElement("button");
+
+      button.className = "floor-button";
+      button.textContent = floor;
+      button.onclick = () => showFloor(name, floor);
+
+      buttons.appendChild(button);
+    }
+
+    info.textContent = "階を選ぶと、教室情報が表示されます。";
+  }
 
   panel.scrollIntoView({ behavior: "smooth" });
 }
@@ -272,5 +303,7 @@ function closeBuilding() {
   document.getElementById("building-panel").style.display = "none";
 }
 </script>
+
+
 </body>
 </html>
