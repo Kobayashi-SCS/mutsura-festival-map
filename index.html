@@ -5,8 +5,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>六浦祭2026 校内マップ</title>
+
 <style>
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
@@ -28,7 +31,9 @@ header h1 {
   letter-spacing: 3px;
 }
 
-header p { margin-bottom: 0; }
+header p {
+  margin-bottom: 0;
+}
 
 main {
   max-width: 1100px;
@@ -41,6 +46,7 @@ h2 {
   color: #f5d58e;
 }
 
+/* マップの外枠 */
 .map-frame {
   padding: 12px;
   border: 3px solid #d5bd79;
@@ -49,40 +55,20 @@ h2 {
   box-shadow: 0 8px 0 #102a25;
 }
 
+/* 全体マップ */
 .map {
   position: relative;
   width: 100%;
-  aspect-ratio: 1365 / 768;
+  aspect-ratio: 3 / 2;
   overflow: hidden;
   border: 3px solid #42664a;
   border-radius: 8px;
   background:
-    radial-gradient(ellipse, #73965a 1%, transparent 70%),
-    repeating-linear-gradient(45deg, #527b4c 0 20px, #5b8552 20px 40px);
+    radial-gradient(ellipse, #b8df91 1%, transparent 75%),
+    #c6e8a7;
 }
 
-.path {
-  position: absolute;
-  background: #d8c69a;
-  border: 2px solid #a9956d;
-  border-radius: 20px;
-  opacity: .95;
-}
-
-.path.horizontal {
-  left: 12%;
-  top: 47%;
-  width: 76%;
-  height: 8%;
-}
-
-.path.vertical {
-  left: 47%;
-  top: 28%;
-  width: 7%;
-  height: 66%;
-}
-
+/* 建物共通 */
 .building {
   position: absolute;
   display: flex;
@@ -96,9 +82,9 @@ h2 {
   font-weight: bold;
   text-shadow: 0 1px 0 rgba(255,255,255,.5);
   cursor: pointer;
-  box-shadow: 7px 8px 0 rgba(0,0,0,.35);
+  box-shadow: 7px 8px 0 rgba(0,0,0,.25);
   transition: transform .15s, filter .15s;
-  z-index: 2;
+  z-index: 3;
 }
 
 .building:hover {
@@ -111,42 +97,162 @@ h2 {
   font-size: clamp(7px, 1vw, 12px);
 }
 
+/* 2号館 */
 .b2 {
-  left: 16.3%; top: 2.8%;
-  width: 34.8%; height: 27.5%;
+  left: 15%;
+  top: 5%;
+  width: 27%;
+  height: 14%;
   background: #f5df9e;
 }
 
+/* 高校校舎 */
 .high {
-  left: 51.7%; top: 3.7%;
-  width: 34.4%; height: 27%;
+  left: 46%;
+  top: 5%;
+  width: 31%;
+  height: 14%;
   background: #e9aaaa;
 }
 
+/* 4号館 */
 .b4 {
-  left: 2.2%; top: 28%;
-  width: 10.6%; height: 64%;
+  left: 2%;
+  top: 5%;
+  width: 10%;
+  height: 28%;
   background: #b7a6d8;
+  writing-mode: vertical-rl;
 }
 
+/* 中学校舎 */
 .middle {
-  left: 15.4%; top: 67%;
-  width: 35.2%; height: 26%;
+  left: 15%;
+  top: 21%;
+  width: 27%;
+  height: 12%;
   background: #c5dfbd;
 }
 
+/* 本館 */
 .main-building {
-  left: 56.8%; top: 67.5%;
-  width: 28.6%; height: 24%;
+  left: 46%;
+  top: 21%;
+  width: 29%;
+  height: 12%;
   background: #a9c5eb;
 }
 
+/* 礼拝堂 */
 .chapel {
-  left: 79.1%; top: 35%;
-  width: 19.7%; height: 60%;
+  left: 80%;
+  top: 5%;
+  width: 17%;
+  height: 28%;
   background: #f3bd8b;
 }
 
+/* 横方向の道路 */
+.campus-road {
+  position: absolute;
+  top: 35%;
+  left: 0;
+  width: 100%;
+  height: 8%;
+  background: #999da2;
+  border-top: 3px solid #d7d7d7;
+  border-bottom: 3px solid #d7d7d7;
+  z-index: 1;
+}
+
+.road-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  border-top: 3px dashed white;
+}
+
+/* 左側の道路 */
+.side-road {
+  position: absolute;
+  left: 0;
+  top: 43%;
+  width: 8%;
+  height: 57%;
+  background: #999da2;
+  border-right: 3px solid #d7d7d7;
+  z-index: 1;
+}
+
+/* グラウンド */
+.ground {
+  position: absolute;
+  left: 12%;
+  top: 46%;
+  width: 86%;
+  height: 48%;
+  padding: 2%;
+  background: #79c66a;
+  border: 4px solid #5b9e50;
+  border-radius: 9px;
+  z-index: 1;
+}
+
+/* グラウンドの白線 */
+.ground-line {
+  position: relative;
+  width: 100%;
+  height: 85%;
+  border: 3px solid white;
+}
+
+.center-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  height: 100%;
+  border-left: 3px solid white;
+}
+
+.center-circle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 16%;
+  aspect-ratio: 1;
+  border: 3px solid white;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.goal {
+  position: absolute;
+  top: 30%;
+  width: 10%;
+  height: 40%;
+  border: 3px solid white;
+}
+
+.left-goal {
+  left: 0;
+}
+
+.right-goal {
+  right: 0;
+}
+
+.ground span {
+  display: block;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  font-size: clamp(9px, 1.4vw, 16px);
+  text-shadow: 1px 1px 3px #333;
+  margin-top: 5px;
+}
+
+/* 建物情報パネル */
 .panel {
   display: none;
   margin-top: 24px;
@@ -156,9 +262,13 @@ h2 {
   border-radius: 12px;
 }
 
-.panel h2 { color: #f5d58e; }
+.panel h2 {
+  color: #f5d58e;
+}
 
-.floor-button, .back-button {
+/* 階選択ボタン */
+.floor-button,
+.back-button {
   margin: 5px;
   padding: 10px 16px;
   border: 1px solid #e5bd70;
@@ -168,6 +278,12 @@ h2 {
   cursor: pointer;
 }
 
+.floor-button:hover,
+.back-button:hover {
+  background: #668c7d;
+}
+
+/* 教室情報 */
 #floor-info {
   margin: 16px 0;
   padding: 15px;
@@ -185,62 +301,108 @@ footer {
 </head>
 
 <body>
+
 <header>
   <h1>六浦祭 2026</h1>
   <p>AMBITION MAP — 校内案内</p>
 </header>
 
 <main>
+
   <h2>◆ CAMPUS MAP ◆</h2>
-  <p style="text-align:center">建物を選択して、校内を探索しよう！</p>
+  <p style="text-align:center">
+    建物を選択して、校内を探索しよう！
+  </p>
 
   <div class="map-frame">
     <div class="map">
-      <div class="path horizontal"></div>
-      <div class="path vertical"></div>
 
-      <button class="building b2" onclick="openBuilding('2号館')">
-        2号館<small>BUILDING 02</small>
+      <!-- 校舎 -->
+      <button class="building b2"
+        onclick="openBuilding('2号館')">
+        2号館
+        <small>BUILDING 02</small>
       </button>
 
-      <button class="building high" onclick="openBuilding('高校校舎')">
-        高校校舎<small>HIGH SCHOOL</small>
+      <button class="building high"
+        onclick="openBuilding('高校校舎')">
+        高校校舎
+        <small>HIGH SCHOOL</small>
       </button>
 
-      <button class="building b4" onclick="openBuilding('4号館')">
-        4号館<small>BUILDING 04</small>
+      <button class="building b4"
+        onclick="openBuilding('4号館')">
+        4号館
+        <small>BUILDING 04</small>
       </button>
 
-      <button class="building middle" onclick="openBuilding('中学校舎')">
-        中学校舎<small>JUNIOR HIGH</small>
+      <button class="building middle"
+        onclick="openBuilding('中学校舎')">
+        中学校舎
+        <small>JUNIOR HIGH</small>
       </button>
 
-      <button class="building main-building" onclick="openBuilding('本館')">
-        本館<small>MAIN BUILDING</small>
+      <button class="building main-building"
+        onclick="openBuilding('本館')">
+        本館
+        <small>NO ENTRY</small>
       </button>
 
-      <button class="building chapel" onclick="openBuilding('礼拝堂')">
-        礼拝堂<small>CHAPEL</small>
+      <button class="building chapel"
+        onclick="openBuilding('礼拝堂')">
+        礼拝堂
+        <small>CHAPEL</small>
       </button>
+
+      <!-- 道路 -->
+      <div class="campus-road">
+        <div class="road-line"></div>
+      </div>
+
+      <div class="side-road"></div>
+
+      <!-- グラウンド -->
+      <div class="ground">
+        <div class="ground-line">
+          <div class="center-circle"></div>
+          <div class="center-line"></div>
+          <div class="goal left-goal"></div>
+          <div class="goal right-goal"></div>
+        </div>
+        <span>グラウンド</span>
+      </div>
+
     </div>
   </div>
 
+  <!-- 建物情報 -->
   <section class="panel" id="building-panel">
+
     <h2 id="building-name"></h2>
+
     <p>探索する階を選択してください。</p>
+
     <div id="floor-buttons"></div>
+
     <div id="floor-info">
       階を選ぶと、教室情報が表示されます。
     </div>
+
     <button class="back-button" onclick="closeBuilding()">
       ← マップに戻る
     </button>
+
   </section>
+
 </main>
 
-<footer>六浦祭2026 校内マップ</footer>
+<footer>
+  六浦祭2026 校内マップ
+</footer>
 
 <script>
+
+// 建物ごとの階数
 const buildingFloors = {
   "2号館": 4,
   "高校校舎": 3,
@@ -248,7 +410,9 @@ const buildingFloors = {
   "中学校舎": 4
 };
 
+// 建物を選択したとき
 function openBuilding(name) {
+
   const panel = document.getElementById("building-panel");
   const title = document.getElementById("building-name");
   const buttons = document.getElementById("floor-buttons");
@@ -259,51 +423,79 @@ function openBuilding(name) {
   title.textContent = name;
   buttons.innerHTML = "";
 
-  // 本館：立入禁止
+  // 本館
   if (name === "本館") {
-    description.textContent = "文化祭当日は立ち入りできません。";
-    info.textContent = "この建物は立入禁止です。";
+
+    description.textContent =
+      "文化祭当日は立ち入りできません。";
+
+    info.textContent =
+      "この建物は立入禁止です。";
+
   }
 
-  // 礼拝堂：階層なし
+  // 礼拝堂
   else if (name === "礼拝堂") {
-    description.textContent = "礼拝堂の案内";
-    info.textContent = "礼拝堂には階層がありません。";
+
+    description.textContent =
+      "礼拝堂の案内";
+
+    info.textContent =
+      "礼拝堂には階層がありません。";
+
   }
 
-  // その他の校舎：階を選択
+  // その他の校舎
   else {
-    description.textContent = "探索する階を選択してください。";
+
+    description.textContent =
+      "探索する階を選択してください。";
 
     const floorCount = buildingFloors[name];
 
     for (let i = 1; i <= floorCount; i++) {
+
       const floor = i + "階";
       const button = document.createElement("button");
 
       button.className = "floor-button";
       button.textContent = floor;
+
       button.onclick = () => showFloor(name, floor);
 
       buttons.appendChild(button);
+
     }
 
-    info.textContent = "階を選ぶと、教室情報が表示されます。";
+    info.textContent =
+      "階を選ぶと、教室情報が表示されます。";
+
   }
 
-  panel.scrollIntoView({ behavior: "smooth" });
+  panel.scrollIntoView({
+    behavior: "smooth"
+  });
+
 }
 
+// 階を選択したとき
 function showFloor(name, floor) {
+
   document.getElementById("floor-info").textContent =
-    name + " " + floor + " の教室情報は、これから追加します。";
+    name + " " + floor +
+    " の教室情報は、これから追加します。";
+
 }
 
+// マップに戻る
 function closeBuilding() {
-  document.getElementById("building-panel").style.display = "none";
-}
-</script>
 
+  document.getElementById("building-panel").style.display =
+    "none";
+
+}
+
+</script>
 
 </body>
 </html>
