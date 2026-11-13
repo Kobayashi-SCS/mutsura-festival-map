@@ -5,7 +5,81 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>六浦祭2026 フロアマップ</title>
+/* ===== 全画面マップ表示 ===== */
 
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+header {
+  display: none;
+}
+
+main {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+#mapScreen {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  z-index: 1;
+}
+
+.map-toolbar {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  z-index: 10;
+  margin: 0;
+  pointer-events: none;
+}
+
+.map-controls {
+  pointer-events: auto;
+  padding: 6px;
+  border-radius: 12px;
+  background: #ffffffdd;
+}
+
+.map-hint {
+  display: none;
+}
+
+#mapArea {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+#campusMap {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* 校舎の階層画面 */
+#floorScreen {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  margin: 0;
+  border-radius: 0;
+  overflow-y: auto;
+}
+  
 <style>
 * { box-sizing: border-box; }
 
@@ -686,7 +760,7 @@ const buildingFloors = {
 let currentBuilding = "";
 let currentFloor = 1;
 
-let mapZoom = 1;
+let mapZoom = 1.35;
 let mapX = 0;
 let mapY = 0;
 let map3d = false;
@@ -700,6 +774,27 @@ let suppressClick = false;
 const mapArea = document.getElementById("mapArea");
 const campusMap = document.getElementById("campusMap");
 
+// 最初に校舎エリアを中心に表示
+function setInitialMapView() {
+  const rect = mapArea.getBoundingClientRect();
+
+  const scale = Math.min(
+    rect.width / 1536,
+    rect.height / 1024
+  );
+
+  mapZoom = 1.35;
+
+  // 校舎エリアの中心位置
+  const focusX = 850;
+  const focusY = 260;
+
+  mapX = -(focusX - 768) * scale * mapZoom;
+  mapY = -(focusY - 512) * scale * mapZoom;
+
+  updateMap();
+}
+  
 function updateMap() {
   const angle = map3d ? 32 : 0;
 
@@ -1044,7 +1139,7 @@ function backToMap() {
   document.getElementById("specialNotice").innerHTML = "";
 }
 
-updateMap();
+requestAnimationFrame(setInitialMapView);
 
 </script>
 
