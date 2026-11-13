@@ -14,351 +14,375 @@
 body {
   margin: 0;
   font-family: "Noto Sans JP", sans-serif;
-  background: #102d32;
-  color: white;
+  background: #f3f5f1;
+  color: #26332d;
 }
 
 header {
+  padding: 20px;
+  background: #254d3b;
+  color: white;
   text-align: center;
-  padding: 22px;
-  background: #173e43;
-  border-bottom: 3px solid #d7b76a;
 }
 
 header h1 {
   margin: 0;
-  color: #f4d98b;
+  font-size: 25px;
 }
 
 header p {
   margin: 6px 0 0;
+  font-size: 13px;
+  opacity: .85;
 }
 
 main {
-  max-width: 1200px;
-  margin: auto;
-  padding: 20px;
+  width: min(1100px, 96%);
+  margin: 24px auto;
 }
 
-/* 2D・3D切り替え */
-.toolbar {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 18px;
+.panel {
+  background: white;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 3px 12px #00000012;
 }
 
-.toolbar button {
-  padding: 10px 25px;
-  border: 1px solid #d7b76a;
-  border-radius: 8px;
-  background: #234d52;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.toolbar button.active {
-  background: #d7b76a;
-  color: #18383c;
-  font-weight: bold;
-}
-
-/* 全体マップ */
-.map-frame {
-  padding: 12px;
-  overflow: hidden;
-  background: #e9eee8;
-  border: 4px solid #d7b76a;
-  border-radius: 12px;
-}
-
-.map {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 3 / 2;
-  min-height: 500px;
-  overflow: hidden;
-  background: #dce8d2;
-  border: 3px solid #879c83;
-  transition: transform .5s;
-  transform-style: preserve-3d;
-}
-
-.map.is3d {
-  transform: perspective(1200px) rotateX(20deg) scale(.94);
-}
-
-/* 道路 */
-.road {
-  position: absolute;
-  z-index: 1;
-  background: #a7aaa8;
-  border: 2px solid #858987;
-}
-
-.road.horizontal {
-  left: 0;
-  top: 46%;
-  width: 100%;
-  height: 6%;
-}
-
-.road.horizontal::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  width: 100%;
-  border-top: 2px dashed white;
-}
-
-/* 建物共通 */
-.building {
-  position: absolute;
-  z-index: 2;
+.panel-title {
   display: flex;
   align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 5px;
-  border: 3px solid #59665f;
-  border-radius: 3px;
-  color: #263d36;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.panel-title h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+button {
+  border: 0;
+  border-radius: 9px;
+  padding: 10px 16px;
+  font-size: 14px;
   font-weight: bold;
-  font-size: clamp(12px, 1.5vw, 20px);
   cursor: pointer;
-  box-shadow: 5px 6px 0 rgba(0,0,0,.18);
-  transition: filter .2s, transform .2s;
+}
+
+.mode-button {
+  background: #e5eee8;
+  color: #254d3b;
+}
+
+.mode-button.active {
+  background: #254d3b;
+  color: white;
+}
+
+#mapArea {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #b9d6a8;
+  perspective: 1200px;
+}
+
+#campusMap {
+  width: 100%;
+  display: block;
+  transition: transform .5s ease;
+  transform-origin: center center;
+}
+
+#mapArea.mode3d #campusMap {
+  transform: rotateX(35deg) scale(.94);
+}
+
+.building {
+  cursor: pointer;
+  transition: filter .2s, opacity .2s;
 }
 
 .building:hover {
-  filter: brightness(1.08);
-  transform: translateY(-3px);
+  filter: brightness(1.12) drop-shadow(0 5px 4px #0005);
 }
 
-.school-2 {
-  left: 15%;
-  top: 5%;
-  width: 34%;
-  height: 23%;
-  background: #fff0c9;
+.building rect,
+.building polygon {
+  stroke: #45554b;
+  stroke-width: 3;
 }
 
-.high-school {
-  left: 51%;
-  top: 5%;
-  width: 34%;
-  height: 23%;
-  background: #f3cccc;
-}
-
-.building-4 {
-  left: 2%;
-  top: 31%;
-  width: 10%;
-  height: 60%;
-  background: #c1b3df;
-  writing-mode: vertical-rl;
-}
-
-.middle-school {
-  left: 15%;
-  top: 65%;
-  width: 29%;
-  height: 26%;
-  background: #d8ead2;
-}
-
-.main-building {
-  left: 46%;
-  top: 65%;
-  width: 22%;
-  height: 26%;
-  background: #cbdcf5;
-}
-
-.chapel {
-  left: 75%;
-  top: 34%;
-  width: 18%;
-  height: 27%;
-  background: #f8d0a8;
-}
-
-.gym {
-  left: 87%;
-  top: 5%;
-  width: 11%;
-  height: 23%;
-  background: #aeb7c1;
-}
-
-/* グラウンド */
-.ground {
-  position: absolute;
-  z-index: 2;
-  left: 70%;
-  top: 65%;
-  width: 28%;
-  height: 29%;
-  border: 4px solid #57924c;
-  background: #85c96f;
-  box-shadow: 4px 5px 0 rgba(0,0,0,.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
+.building text {
+  font-size: 18px;
   font-weight: bold;
-  font-size: clamp(12px, 1.5vw, 20px);
-}
-
-.field-lines {
-  position: absolute;
-  inset: 7%;
-  border: 2px solid rgba(255,255,255,.9);
+  fill: #26332d;
+  text-anchor: middle;
   pointer-events: none;
 }
 
-.field-lines::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  border-left: 2px solid white;
+.map-label {
+  font-size: 17px;
+  font-weight: bold;
+  fill: #405644;
+  text-anchor: middle;
 }
 
-.field-lines::after {
-  content: "";
-  position: absolute;
-  width: 22%;
-  aspect-ratio: 1;
-  left: 39%;
-  top: 39%;
-  border: 2px solid white;
-  border-radius: 50%;
+.map-small {
+  font-size: 13px;
+  fill: #526653;
+  text-anchor: middle;
 }
 
-.ground-label {
-  position: relative;
-  z-index: 1;
-  text-shadow: 1px 1px 3px #386c32;
+.map-hint {
+  margin: 12px 0 0;
+  color: #65736a;
+  font-size: 13px;
 }
 
-/* 校舎の階別画面 */
-.floor-page {
+#floorScreen {
   display: none;
-  padding: 20px;
-  background: #f5f5f0;
-  color: #263d36;
-  border: 4px solid #d7b76a;
-  border-radius: 12px;
-  min-height: 500px;
+  margin-top: 20px;
+}
+
+#floorScreen.visible {
+  display: block;
+}
+
+.floor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.floor-header h2 {
+  margin: 0;
+  font-size: 22px;
 }
 
 .back-button {
-  padding: 10px 18px;
-  border: 1px solid #d7b76a;
-  border-radius: 7px;
-  background: #234d52;
-  color: white;
-  font-size: 15px;
-  cursor: pointer;
+  background: #e8eee9;
+  color: #254d3b;
 }
 
-.floor-page h2 {
-  text-align: center;
-  margin: 20px 0;
-  font-size: 28px;
-}
-
-/* 階数ボタン */
 .floor-buttons {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 8px;
+  margin-bottom: 18px;
 }
 
-.floor-buttons button {
-  padding: 10px 24px;
-  border: 2px solid #62776b;
-  border-radius: 7px;
-  background: #e3e9df;
-  color: #263d36;
-  font-size: 17px;
-  font-weight: bold;
-  cursor: pointer;
+.floor-button {
+  background: #e9eee9;
+  color: #354a3c;
 }
 
-.floor-buttons button.active-floor {
-  background: #315e61;
+.floor-button.active {
+  background: #254d3b;
   color: white;
-  border-color: #315e61;
 }
 
-/* 間取り画像 */
-.floor-content {
+#floorPlan {
   width: 100%;
-  min-height: 330px;
-  padding: 10px;
-  background: white;
-  border: 2px solid #a4aaa2;
-  border-radius: 8px;
+  min-height: 300px;
+  overflow: hidden;
+  background: #f6f7f4;
+  border: 2px solid #dce4dc;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.floor-message {
+  padding: 35px 15px;
+  text-align: center;
+  color: #52645a;
+  background: #f3f6f2;
+  border-radius: 10px;
+}
+
+.school-plan {
+  max-width: 850px;
+  margin: 0 auto;
+  border: 3px solid #64756a;
+  background: #fff;
+}
+
+.plan-facilities {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr 1fr 1fr 1.3fr 1fr;
+  min-height: 105px;
+}
+
+.facility {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.floor-content img {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-height: 75vh;
-  object-fit: contain;
-}
-
-.floor-placeholder {
   text-align: center;
-  color: #555;
-  font-size: 18px;
+  padding: 8px 3px;
+  border: 1px solid #aab5ac;
+  background: #edf0ec;
+  font-size: 13px;
+  font-weight: bold;
 }
 
-/* スマホ対応 */
-@media (max-width: 650px) {
+.facility.stairs {
+  background: #d7dce0;
+}
+
+.facility.women {
+  background: #f6dce8;
+}
+
+.facility.men {
+  background: #dce9f7;
+}
+
+.facility.elevator {
+  background: #e9e1f4;
+}
+
+.corridor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  background: #f0eee4;
+  border-top: 2px solid #9da69e;
+  border-bottom: 2px solid #9da69e;
+  color: #566057;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.plan-lower {
+  display: grid;
+  min-height: 220px;
+  gap: 0;
+}
+
+.room {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90px;
+  padding: 10px;
+  border: 1px solid #9eaaa0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.room.storage {
+  background: #e0e0dc;
+}
+
+.room.pink {
+  background: #f5dce8;
+}
+
+.room.blue {
+  background: #dce9f7;
+}
+
+.room.yellow {
+  background: #f7edc9;
+}
+
+.room.green {
+  background: #dcefdc;
+}
+
+.room.purple {
+  background: #e9e0f3;
+}
+
+.room.gray {
+  background: #e0e2df;
+  color: #6c746e;
+}
+
+.room.large {
+  min-height: 220px;
+}
+
+.room-stack {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+
+.room-stack .room {
+  min-height: 100px;
+}
+
+.generic-plan {
+  max-width: 750px;
+  margin: auto;
+  border: 3px solid #65766a;
+  background: white;
+}
+
+.generic-plan .corridor {
+  min-height: 55px;
+}
+
+.generic-rooms {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.generic-rooms .room {
+  min-height: 160px;
+}
+
+.notice {
+  padding: 20px;
+  margin-top: 15px;
+  border-radius: 10px;
+  background: #fff5df;
+  color: #735b26;
+  text-align: center;
+  font-weight: bold;
+}
+
+@media (max-width: 600px) {
   main {
-    padding: 10px;
+    width: 94%;
+    margin: 14px auto;
   }
 
-  .map-frame {
-    padding: 5px;
-  }
-
-  .map {
-    min-height: 400px;
-  }
-
-  .building {
-    border-width: 2px;
-    font-size: 10px;
-  }
-
-  .ground {
-    font-size: 10px;
-  }
-
-  .floor-page {
+  .panel {
     padding: 12px;
   }
 
-  .floor-page h2 {
-    font-size: 22px;
+  header h1 {
+    font-size: 20px;
   }
 
-  .floor-content {
-    padding: 4px;
+  .facility {
+    font-size: 10px;
+    padding: 5px 1px;
+  }
+
+  .plan-facilities {
+    min-height: 85px;
+  }
+
+  .room {
+    font-size: 11px;
+    padding: 5px;
+  }
+
+  .plan-lower {
+    min-height: 170px;
+  }
+
+  .room.large {
+    min-height: 170px;
   }
 }
 </style>
@@ -367,99 +391,161 @@ main {
 <body>
 
 <header>
-  <h1>六浦祭 2026</h1>
-  <p>FLOOR MAP</p>
+  <h1>六浦祭2026 フロアマップ</h1>
+  <p>校内の施設やイベント会場を確認できます</p>
 </header>
 
 <main>
 
-  <!-- 全体マップ -->
-  <div id="map-page">
-
-    <div class="toolbar">
-      <button id="btn2d" class="active"
-        onclick="setMapMode('2d')">
-        2D MAP
-      </button>
-
-      <button id="btn3d"
-        onclick="setMapMode('3d')">
-        3D MAP
-      </button>
+<section class="panel" id="mapScreen">
+  <div class="panel-title">
+    <h2>キャンパスマップ</h2>
+    <div>
+      <button class="mode-button active" id="mode2d" onclick="changeMode('2d')">2D</button>
+      <button class="mode-button" id="mode3d" onclick="changeMode('3d')">3D</button>
     </div>
-
-    <div class="map-frame">
-      <div class="map" id="map">
-
-        <div class="road horizontal"></div>
-
-        <button class="building school-2"
-          onclick="openBuilding('2号館')">
-          2号館
-        </button>
-
-        <button class="building high-school"
-          onclick="openBuilding('高校校舎')">
-          高校校舎
-        </button>
-
-        <button class="building building-4"
-          onclick="openBuilding('4号館')">
-          4号館
-        </button>
-
-        <button class="building middle-school"
-          onclick="openBuilding('中学校舎')">
-          中学校舎
-        </button>
-
-        <button class="building main-building"
-          onclick="openBuilding('本館')">
-          本館<br>立入禁止
-        </button>
-
-        <button class="building chapel"
-          onclick="openBuilding('礼拝堂')">
-          礼拝堂
-        </button>
-
-        <button class="building gym"
-          onclick="openBuilding('体育館')">
-          体育館
-        </button>
-
-        <div class="ground">
-          <div class="field-lines"></div>
-          <span class="ground-label">グラウンド</span>
-        </div>
-
-      </div>
-    </div>
-
   </div>
 
-  <!-- 校舎の階別画面 -->
-  <div class="floor-page" id="floor-page">
+  <div id="mapArea">
+    <svg id="campusMap" viewBox="0 0 1000 650" xmlns="http://www.w3.org/2000/svg">
 
-    <button class="back-button" onclick="backToMap()">
-      ← 全体マップに戻る
-    </button>
+      <!-- 地面 -->
+      <rect width="1000" height="650" fill="#b9d6a8"/>
 
-    <h2 id="floor-title"></h2>
+      <!-- 緑地 -->
+      <path d="M0 0 H1000 V650 H0 Z" fill="#b9d6a8"/>
+      <path d="M20 30 Q150 10 260 50 T500 35 L700 70 L970 20 V150 H20 Z" fill="#a8cb96"/>
+      <path d="M20 500 Q200 470 350 520 T700 500 L980 550 V650 H20 Z" fill="#a8cb96"/>
 
-    <div class="floor-buttons" id="floor-buttons"></div>
+      <!-- 左側の斜め道路 -->
+      <path d="M0 0 L115 0 L0 280 Z" fill="#777f7b"/>
+      <path d="M0 0 L115 0 L0 280" fill="none" stroke="#e9e9df" stroke-width="5"/>
 
-    <div class="floor-content" id="floor-content">
-      間取りを準備中です。
-    </div>
+      <!-- 中央の道路 -->
+      <path d="M0 300 L1000 300 L1000 360 L0 360 Z" fill="#858c87"/>
+      <path d="M0 330 H1000" stroke="#f4f0d8" stroke-width="3" stroke-dasharray="18 14"/>
 
+      <!-- 道路沿いの歩道 -->
+      <path d="M0 285 H1000 V300 H0 Z" fill="#d8d7c9"/>
+      <path d="M0 360 H1000 V375 H0 Z" fill="#d8d7c9"/>
+
+      <!-- 木・植え込み -->
+      <g fill="#648f57">
+        <circle cx="145" cy="80" r="25"/>
+        <circle cx="185" cy="70" r="20"/>
+        <circle cx="255" cy="100" r="24"/>
+        <circle cx="330" cy="75" r="22"/>
+        <circle cx="470" cy="80" r="25"/>
+        <circle cx="570" cy="90" r="22"/>
+        <circle cx="750" cy="80" r="25"/>
+        <circle cx="920" cy="100" r="27"/>
+        <circle cx="80" cy="440" r="25"/>
+        <circle cx="170" cy="530" r="25"/>
+        <circle cx="380" cy="550" r="25"/>
+        <circle cx="570" cy="550" r="25"/>
+        <circle cx="760" cy="550" r="25"/>
+        <circle cx="950" cy="460" r="25"/>
+      </g>
+      <g fill="#8bb879">
+        <circle cx="145" cy="80" r="13"/>
+        <circle cx="185" cy="70" r="10"/>
+        <circle cx="255" cy="100" r="13"/>
+        <circle cx="330" cy="75" r="12"/>
+        <circle cx="470" cy="80" r="13"/>
+        <circle cx="570" cy="90" r="12"/>
+        <circle cx="750" cy="80" r="13"/>
+        <circle cx="920" cy="100" r="14"/>
+        <circle cx="80" cy="440" r="13"/>
+        <circle cx="170" cy="530" r="13"/>
+        <circle cx="380" cy="550" r="13"/>
+        <circle cx="570" cy="550" r="13"/>
+        <circle cx="760" cy="550" r="13"/>
+        <circle cx="950" cy="460" r="13"/>
+      </g>
+
+      <!-- 体育館 -->
+      <g class="building" onclick="openBuilding('体育館')">
+        <rect x="755" y="35" width="205" height="115" rx="5" fill="#aeb4b7"/>
+        <rect x="765" y="45" width="185" height="95" fill="#cbd0d2" stroke="#788287" stroke-width="2"/>
+        <path d="M765 90 H950 M855 45 V140" stroke="#a0a8aa" stroke-width="2"/>
+        <text x="857" y="100">体育館</text>
+      </g>
+
+      <!-- 2号館：上部左 -->
+      <g class="building" onclick="openBuilding('2号館')">
+        <rect x="175" y="125" width="145" height="105" rx="4" fill="#e9c96c"/>
+        <rect x="185" y="135" width="125" height="85" fill="#f4df9c" stroke="#b69b4f"/>
+        <text x="247" y="183">2号館</text>
+      </g>
+
+      <!-- 高校校舎：上部中央右 -->
+      <g class="building" onclick="openBuilding('高校校舎')">
+        <rect x="365" y="115" width="300" height="115" rx="4" fill="#d9a0a6"/>
+        <rect x="375" y="125" width="280" height="95" fill="#f0c4c7" stroke="#b97d84"/>
+        <text x="515" y="180">高校校舎</text>
+      </g>
+
+      <!-- 4号館：左端縦 -->
+      <g class="building" onclick="openBuilding('4号館')">
+        <rect x="45" y="385" width="90" height="180" rx="4" fill="#9cb6d7"/>
+        <rect x="55" y="395" width="70" height="160" fill="#c4d6ed" stroke="#7d9abc"/>
+        <text x="90" y="475">4号館</text>
+      </g>
+
+      <!-- 中学校舎：左下中央 -->
+      <g class="building" onclick="openBuilding('中学校舎')">
+        <rect x="175" y="390" width="215" height="145" rx="4" fill="#8eb9a1"/>
+        <rect x="185" y="400" width="195" height="125" fill="#c2e0ce" stroke="#719c83"/>
+        <text x="282" y="475">中学校舎</text>
+      </g>
+
+      <!-- 本館：下部中央右 -->
+      <g class="building" onclick="openBuilding('本館')">
+        <rect x="445" y="390" width="180" height="125" rx="4" fill="#b6a4c9"/>
+        <rect x="455" y="400" width="160" height="105" fill="#d9cce6" stroke="#9582a9"/>
+        <text x="535" y="460">本館</text>
+      </g>
+
+      <!-- 礼拝堂：右端縦 -->
+      <g class="building" onclick="openBuilding('礼拝堂')">
+        <rect x="680" y="385" width="90" height="160" rx="4" fill="#e5b982"/>
+        <rect x="690" y="395" width="70" height="140" fill="#f4d8b3" stroke="#bd9567"/>
+        <text x="725" y="470">礼拝堂</text>
+      </g>
+
+      <!-- グラウンド -->
+      <g class="building" onclick="openBuilding('グラウンド')">
+        <rect x="800" y="385" width="175" height="190" rx="5" fill="#8dba79" stroke="#648c59" stroke-width="3"/>
+        <rect x="812" y="397" width="151" height="166" fill="#a6cc8d" stroke="#e8f0dc" stroke-width="2"/>
+        <path d="M812 480 H963 M887 397 V563" stroke="#e8f0dc" stroke-width="2"/>
+        <circle cx="887" cy="480" r="25" fill="none" stroke="#e8f0dc" stroke-width="2"/>
+        <text x="887" y="590">グラウンド</text>
+      </g>
+
+      <!-- 道路・施設名 -->
+      <text x="500" y="340" class="map-label" fill="#ffffff">学内道路</text>
+      <text x="500" y="625" class="map-small">六浦祭2026</text>
+
+    </svg>
   </div>
+
+  <p class="map-hint">※ 校舎をクリックすると、その校舎の1階を表示します。</p>
+</section>
+
+<section id="floorScreen" class="panel">
+  <div class="floor-header">
+    <h2 id="buildingTitle">校舎</h2>
+    <button class="back-button" onclick="backToMap()">← 全体マップに戻る</button>
+  </div>
+
+  <div id="floorButtons" class="floor-buttons"></div>
+  <div id="floorPlan"></div>
+  <div id="specialNotice"></div>
+</section>
 
 </main>
 
 <script>
-
-/* 各校舎の階数 */
 const buildingFloors = {
   "2号館": 4,
   "高校校舎": 3,
@@ -470,118 +556,182 @@ const buildingFloors = {
 let currentBuilding = "";
 let currentFloor = 1;
 
+function changeMode(mode) {
+  const mapArea = document.getElementById("mapArea");
+  const button2d = document.getElementById("mode2d");
+  const button3d = document.getElementById("mode3d");
 
-/* 2D・3D切り替え */
-function setMapMode(mode) {
-  const map = document.getElementById("map");
-  const btn2d = document.getElementById("btn2d");
-  const btn3d = document.getElementById("btn3d");
-
-  map.classList.toggle("is3d", mode === "3d");
-
-  btn2d.classList.toggle("active", mode === "2d");
-  btn3d.classList.toggle("active", mode === "3d");
+  if (mode === "3d") {
+    mapArea.classList.add("mode3d");
+    button3d.classList.add("active");
+    button2d.classList.remove("active");
+  } else {
+    mapArea.classList.remove("mode3d");
+    button2d.classList.add("active");
+    button3d.classList.remove("active");
+  }
 }
 
-
-/* 建物をクリックしたとき */
 function openBuilding(name) {
-
-  if (name === "本館") {
-    alert("文化祭当日は立ち入りできません。");
-    return;
-  }
-
-  if (name === "礼拝堂") {
-    alert("礼拝堂には階層がありません。");
-    return;
-  }
-
   if (name === "体育館" || name === "グラウンド") {
-    alert(name + "の内部表示はありません。");
-    return;
-  }
-
-  if (!buildingFloors[name]) {
     return;
   }
 
   currentBuilding = name;
   currentFloor = 1;
 
-  document.getElementById("map-page").style.display = "none";
-  document.getElementById("floor-page").style.display = "block";
+  document.getElementById("mapScreen").style.display = "none";
+  document.getElementById("floorScreen").classList.add("visible");
+  document.getElementById("buildingTitle").textContent = name;
 
-  showFloor(name, 1);
+  if (name === "本館") {
+    document.getElementById("floorButtons").innerHTML = "";
+    document.getElementById("floorPlan").innerHTML = "";
+    document.getElementById("specialNotice").innerHTML =
+      '<div class="notice">文化祭当日は立ち入りできません。</div>';
+    return;
+  }
+
+  if (name === "礼拝堂") {
+    document.getElementById("floorButtons").innerHTML = "";
+    document.getElementById("floorPlan").innerHTML =
+      '<div class="floor-message">礼拝堂には階層がありません。</div>';
+    document.getElementById("specialNotice").innerHTML = "";
+    return;
+  }
+
+  document.getElementById("specialNotice").innerHTML = "";
+  createFloorButtons();
+  showFloor(1);
 }
 
+function createFloorButtons() {
+  const count = buildingFloors[currentBuilding];
+  const area = document.getElementById("floorButtons");
+  area.innerHTML = "";
 
-/* 階を切り替える */
-function showFloor(name, floor) {
+  for (let i = 1; i <= count; i++) {
+    const button = document.createElement("button");
+    button.className = "floor-button" + (i === 1 ? " active" : "");
+    button.textContent = i + "階";
+    button.onclick = () => showFloor(i);
+    button.id = "floorButton" + i;
+    area.appendChild(button);
+  }
+}
 
-  currentBuilding = name;
+function showFloor(floor) {
   currentFloor = floor;
 
-  document.getElementById("floor-title").textContent =
-    name + " " + floor + "F";
+  document.querySelectorAll(".floor-button").forEach(button => {
+    button.classList.remove("active");
+  });
 
-  const buttons = document.getElementById("floor-buttons");
-  buttons.innerHTML = "";
+  const activeButton = document.getElementById("floorButton" + floor);
+  if (activeButton) activeButton.classList.add("active");
 
-  for (let i = 1; i <= buildingFloors[name]; i++) {
+  const plan = document.getElementById("floorPlan");
 
-    const button = document.createElement("button");
-
-    button.textContent = i + "F";
-
-    if (i === floor) {
-      button.classList.add("active-floor");
-    }
-
-    button.onclick = function() {
-      showFloor(name, i);
-    };
-
-    buttons.appendChild(button);
-  }
-
-  const content = document.getElementById("floor-content");
-
-  /* 中学校舎の間取り画像 */
-  if (name === "中学校舎") {
-
-    const image = document.createElement("img");
-
-    image.src = "images/middle-" + floor + "f.png";
-    image.alt = "中学校舎 " + floor + "F の間取り";
-
-    image.onerror = function() {
-      content.innerHTML =
-        '<div class="floor-placeholder">間取り画像を読み込めませんでした。imagesフォルダと画像ファイル名を確認してください。</div>';
-    };
-
-    content.innerHTML = "";
-    content.appendChild(image);
-
+  if (currentBuilding === "中学校舎") {
+    plan.innerHTML = middleSchoolPlan(floor);
   } else {
-
-    content.innerHTML =
-      '<div class="floor-placeholder">' +
-      name + " " + floor + "F の間取りは準備中です。" +
-      '</div>';
-
+    plan.innerHTML = genericPlan(currentBuilding, floor);
   }
 }
 
+/* 中学校舎の間取り */
+function middleSchoolPlan(floor) {
+  let lower = "";
 
-/* 全体マップに戻る */
-function backToMap() {
+  if (floor === 1) {
+    lower = `
+      <div class="plan-lower" style="grid-template-columns:1fr 1fr 1fr 1fr 1fr;">
+        <div class="room storage">下駄箱</div>
+        <div class="room pink">テキスト挿入予定</div>
+        <div class="room blue">テキスト挿入予定</div>
+        <div class="room yellow">テキスト挿入予定</div>
+        <div class="room green">テキスト挿入予定</div>
+      </div>`;
+  }
 
-  document.getElementById("floor-page").style.display = "none";
-  document.getElementById("map-page").style.display = "block";
+  if (floor === 2) {
+    lower = `
+      <div class="plan-lower" style="grid-template-columns:1fr;">
+        <div class="room green large">テキスト挿入予定</div>
+      </div>`;
+  }
 
+  if (floor === 3) {
+    lower = `
+      <div class="plan-lower" style="grid-template-columns:1fr;">
+        <div class="room pink large">テキスト挿入予定</div>
+      </div>`;
+  }
+
+  if (floor === 4) {
+    lower = `
+      <div class="plan-lower" style="grid-template-columns:1fr 1fr 1fr 1fr 1fr;">
+        <div class="room gray">使用しない</div>
+        <div class="room-stack">
+          <div class="room blue">テキスト挿入予定</div>
+          <div class="room yellow">テキスト挿入予定</div>
+        </div>
+        <div class="room-stack">
+          <div class="room pink">テキスト挿入予定</div>
+          <div class="room green">テキスト挿入予定</div>
+        </div>
+        <div class="room-stack">
+          <div class="room yellow">テキスト挿入予定</div>
+          <div class="room purple">テキスト挿入予定</div>
+        </div>
+        <div class="room gray">使用しない</div>
+      </div>`;
+  }
+
+  return `
+    <div class="school-plan">
+      <div class="plan-facilities">
+        <div class="facility stairs">階段</div>
+        <div class="facility women">女子トイレ</div>
+        <div class="facility elevator">エレベーター</div>
+        <div class="facility men">男子トイレ</div>
+        <div class="facility">通路</div>
+        <div class="facility stairs">階段</div>
+      </div>
+      <div class="corridor">中学校舎 ${floor}F</div>
+      ${lower}
+    </div>`;
 }
 
+/* その他の校舎の仮の間取り */
+function genericPlan(name, floor) {
+  return `
+    <div class="generic-plan">
+      <div class="plan-facilities">
+        <div class="facility stairs">階段</div>
+        <div class="facility">教室</div>
+        <div class="facility">教室</div>
+        <div class="facility">教室</div>
+        <div class="facility">教室</div>
+        <div class="facility stairs">階段</div>
+      </div>
+      <div class="corridor">${name} ${floor}F</div>
+      <div class="generic-rooms">
+        <div class="room pink">教室</div>
+        <div class="room blue">教室</div>
+        <div class="room yellow">教室</div>
+      </div>
+    </div>
+    <p class="map-hint">※ この校舎の間取りは仮の配置です。今後、実際の配置図に合わせて調整します。</p>`;
+}
+
+function backToMap() {
+  document.getElementById("floorScreen").classList.remove("visible");
+  document.getElementById("mapScreen").style.display = "block";
+  document.getElementById("floorButtons").innerHTML = "";
+  document.getElementById("floorPlan").innerHTML = "";
+  document.getElementById("specialNotice").innerHTML = "";
+}
 </script>
 
 </body>
