@@ -46,7 +46,7 @@ h2 {
   color: #f5d58e;
 }
 
-/* マップの外枠 */
+/* マップ外枠 */
 .map-frame {
   padding: 12px;
   border: 3px solid #d5bd79;
@@ -59,7 +59,7 @@ h2 {
 .map {
   position: relative;
   width: 100%;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   border: 3px solid #42664a;
   border-radius: 8px;
@@ -75,88 +75,95 @@ h2 {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  border: 3px solid rgba(45, 45, 45, .75);
+  border: 3px solid rgba(45,45,45,.65);
   border-radius: 5px;
   color: #26323a;
-  font-size: clamp(10px, 2vw, 24px);
+  font-size: clamp(10px, 1.8vw, 22px);
   font-weight: bold;
   text-shadow: 0 1px 0 rgba(255,255,255,.5);
   cursor: pointer;
-  box-shadow: 7px 8px 0 rgba(0,0,0,.25);
-  transition: transform .15s, filter .15s;
+  box-shadow: 6px 7px 0 rgba(0,0,0,.25);
   z-index: 3;
 }
 
 .building:hover {
-  transform: translateY(-5px);
   filter: brightness(1.1);
 }
 
 .building small {
-  margin-top: 6px;
+  margin-top: 5px;
   font-size: clamp(7px, 1vw, 12px);
 }
 
-/* 2号館 */
+/* 2号館：左上 */
 .b2 {
   left: 15%;
-  top: 5%;
-  width: 27%;
-  height: 14%;
+  top: 4%;
+  width: 30%;
+  height: 19%;
   background: #f5df9e;
 }
 
-/* 高校校舎 */
+/* 高校校舎：右上 */
 .high {
-  left: 46%;
-  top: 5%;
-  width: 31%;
-  height: 14%;
+  left: 49%;
+  top: 4%;
+  width: 27%;
+  height: 19%;
   background: #e9aaaa;
 }
 
-/* 4号館 */
+/* 体育館：右上端 */
+.gym {
+  left: 79%;
+  top: 4%;
+  width: 18%;
+  height: 19%;
+  background: #a9a4aa;
+}
+
+/* 4号館：左端 */
 .b4 {
   left: 2%;
-  top: 5%;
+  top: 27%;
   width: 10%;
-  height: 28%;
+  height: 29%;
   background: #b7a6d8;
   writing-mode: vertical-rl;
 }
 
-/* 中学校舎 */
+/* 中学校舎：左下寄り */
 .middle {
   left: 15%;
-  top: 21%;
-  width: 27%;
-  height: 12%;
+  top: 29%;
+  width: 30%;
+  height: 22%;
   background: #c5dfbd;
 }
 
-/* 本館 */
+/* 本館：中央下寄り */
 .main-building {
-  left: 46%;
-  top: 21%;
-  width: 29%;
-  height: 12%;
+  left: 49%;
+  top: 29%;
+  width: 27%;
+  height: 22%;
   background: #a9c5eb;
 }
 
-/* 礼拝堂 */
+/* 礼拝堂：右端 */
 .chapel {
-  left: 80%;
-  top: 5%;
-  width: 17%;
-  height: 28%;
+  left: 79%;
+  top: 27%;
+  width: 18%;
+  height: 29%;
   background: #f3bd8b;
 }
 
-/* 横方向の道路 */
+/* 道路 */
 .campus-road {
   position: absolute;
-  top: 35%;
   left: 0;
+  top: 58%;
   width: 100%;
   height: 8%;
   background: #999da2;
@@ -173,25 +180,13 @@ h2 {
   border-top: 3px dashed white;
 }
 
-/* 左側の道路 */
-.side-road {
-  position: absolute;
-  left: 0;
-  top: 43%;
-  width: 8%;
-  height: 57%;
-  background: #999da2;
-  border-right: 3px solid #d7d7d7;
-  z-index: 1;
-}
-
 /* グラウンド */
 .ground {
   position: absolute;
   left: 12%;
-  top: 46%;
+  top: 70%;
   width: 86%;
-  height: 48%;
+  height: 27%;
   padding: 2%;
   background: #79c66a;
   border: 4px solid #5b9e50;
@@ -199,11 +194,10 @@ h2 {
   z-index: 1;
 }
 
-/* グラウンドの白線 */
 .ground-line {
   position: relative;
   width: 100%;
-  height: 85%;
+  height: 82%;
   border: 3px solid white;
 }
 
@@ -249,10 +243,10 @@ h2 {
   font-weight: bold;
   font-size: clamp(9px, 1.4vw, 16px);
   text-shadow: 1px 1px 3px #333;
-  margin-top: 5px;
+  margin-top: 3px;
 }
 
-/* 建物情報パネル */
+/* 情報パネル */
 .panel {
   display: none;
   margin-top: 24px;
@@ -266,7 +260,6 @@ h2 {
   color: #f5d58e;
 }
 
-/* 階選択ボタン */
 .floor-button,
 .back-button {
   margin: 5px;
@@ -283,7 +276,6 @@ h2 {
   background: #668c7d;
 }
 
-/* 教室情報 */
 #floor-info {
   margin: 16px 0;
   padding: 15px;
@@ -309,90 +301,97 @@ footer {
 
 <main>
 
-  <h2>◆ CAMPUS MAP ◆</h2>
-  <p style="text-align:center">
-    建物を選択して、校内を探索しよう！
-  </p>
+<h2>◆ CAMPUS MAP ◆</h2>
+<p style="text-align:center">
+  建物を選択して、校内を探索しよう！
+</p>
 
-  <div class="map-frame">
-    <div class="map">
+<div class="map-frame">
+  <div class="map">
 
-      <!-- 校舎 -->
-      <button class="building b2"
-        onclick="openBuilding('2号館')">
-        2号館
-        <small>BUILDING 02</small>
-      </button>
-
-      <button class="building high"
-        onclick="openBuilding('高校校舎')">
-        高校校舎
-        <small>HIGH SCHOOL</small>
-      </button>
-
-      <button class="building b4"
-        onclick="openBuilding('4号館')">
-        4号館
-        <small>BUILDING 04</small>
-      </button>
-
-      <button class="building middle"
-        onclick="openBuilding('中学校舎')">
-        中学校舎
-        <small>JUNIOR HIGH</small>
-      </button>
-
-      <button class="building main-building"
-        onclick="openBuilding('本館')">
-        本館
-        <small>NO ENTRY</small>
-      </button>
-
-      <button class="building chapel"
-        onclick="openBuilding('礼拝堂')">
-        礼拝堂
-        <small>CHAPEL</small>
-      </button>
-
-      <!-- 道路 -->
-      <div class="campus-road">
-        <div class="road-line"></div>
-      </div>
-
-      <div class="side-road"></div>
-
-      <!-- グラウンド -->
-      <div class="ground">
-        <div class="ground-line">
-          <div class="center-circle"></div>
-          <div class="center-line"></div>
-          <div class="goal left-goal"></div>
-          <div class="goal right-goal"></div>
-        </div>
-        <span>グラウンド</span>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- 建物情報 -->
-  <section class="panel" id="building-panel">
-
-    <h2 id="building-name"></h2>
-
-    <p>探索する階を選択してください。</p>
-
-    <div id="floor-buttons"></div>
-
-    <div id="floor-info">
-      階を選ぶと、教室情報が表示されます。
-    </div>
-
-    <button class="back-button" onclick="closeBuilding()">
-      ← マップに戻る
+    <!-- 校舎 -->
+    <button class="building b2"
+      onclick="openBuilding('2号館')">
+      2号館
+      <small>BUILDING 02</small>
     </button>
 
-  </section>
+    <button class="building high"
+      onclick="openBuilding('高校校舎')">
+      高校校舎
+      <small>HIGH SCHOOL</small>
+    </button>
+
+    <button class="building b4"
+      onclick="openBuilding('4号館')">
+      4号館
+      <small>BUILDING 04</small>
+    </button>
+
+    <button class="building middle"
+      onclick="openBuilding('中学校舎')">
+      中学校舎
+      <small>JUNIOR HIGH</small>
+    </button>
+
+    <button class="building main-building"
+      onclick="openBuilding('本館')">
+      本館
+      <small>NO ENTRY</small>
+    </button>
+
+    <button class="building chapel"
+      onclick="openBuilding('礼拝堂')">
+      礼拝堂
+      <small>CHAPEL</small>
+    </button>
+
+    <!-- 体育館 -->
+    <button class="building gym"
+      onclick="openBuilding('体育館')">
+      体育館
+      <small>GYMNASIUM</small>
+    </button>
+
+    <!-- 道路 -->
+    <div class="campus-road">
+      <div class="road-line"></div>
+    </div>
+
+    <!-- グラウンド -->
+    <div class="ground">
+      <div class="ground-line">
+        <div class="center-circle"></div>
+        <div class="center-line"></div>
+        <div class="goal left-goal"></div>
+        <div class="goal right-goal"></div>
+      </div>
+      <span>グラウンド</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- 建物情報 -->
+<section class="panel" id="building-panel">
+
+  <h2 id="building-name"></h2>
+
+  <p id="building-description">
+    探索する階を選択してください。
+  </p>
+
+  <div id="floor-buttons"></div>
+
+  <div id="floor-info">
+    階を選ぶと、教室情報が表示されます。
+  </div>
+
+  <button class="back-button" onclick="closeBuilding()">
+    ← マップに戻る
+  </button>
+
+</section>
 
 </main>
 
@@ -417,7 +416,7 @@ function openBuilding(name) {
   const title = document.getElementById("building-name");
   const buttons = document.getElementById("floor-buttons");
   const info = document.getElementById("floor-info");
-  const description = panel.querySelector("p");
+  const description = document.getElementById("building-description");
 
   panel.style.display = "block";
   title.textContent = name;
@@ -425,74 +424,64 @@ function openBuilding(name) {
 
   // 本館
   if (name === "本館") {
-
     description.textContent =
       "文化祭当日は立ち入りできません。";
-
     info.textContent =
       "この建物は立入禁止です。";
-
   }
 
   // 礼拝堂
   else if (name === "礼拝堂") {
-
-    description.textContent =
-      "礼拝堂の案内";
-
+    description.textContent = "礼拝堂の案内";
     info.textContent =
       "礼拝堂には階層がありません。";
+  }
 
+  // 体育館
+  else if (name === "体育館") {
+    description.textContent = "体育館の案内";
+    info.textContent =
+      "体育館の詳細情報は、これから追加します。";
   }
 
   // その他の校舎
   else {
-
     description.textContent =
       "探索する階を選択してください。";
 
     const floorCount = buildingFloors[name];
 
     for (let i = 1; i <= floorCount; i++) {
-
       const floor = i + "階";
       const button = document.createElement("button");
 
       button.className = "floor-button";
       button.textContent = floor;
-
       button.onclick = () => showFloor(name, floor);
 
       buttons.appendChild(button);
-
     }
 
     info.textContent =
       "階を選ぶと、教室情報が表示されます。";
-
   }
 
   panel.scrollIntoView({
     behavior: "smooth"
   });
-
 }
 
 // 階を選択したとき
 function showFloor(name, floor) {
-
   document.getElementById("floor-info").textContent =
     name + " " + floor +
     " の教室情報は、これから追加します。";
-
 }
 
 // マップに戻る
 function closeBuilding() {
-
   document.getElementById("building-panel").style.display =
     "none";
-
 }
 
 </script>
