@@ -7,9 +7,7 @@
 <title>六浦祭2026 フロアマップ</title>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -25,15 +23,8 @@ header {
   color: white;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 25px;
-}
-
-header p {
-  margin: 6px 0 0;
-  font-size: 13px;
-}
+header h1 { margin: 0; font-size: 25px; }
+header p { margin: 6px 0 0; font-size: 13px; }
 
 main {
   width: min(1200px, 96%);
@@ -47,8 +38,7 @@ main {
   box-shadow: 0 3px 12px #00000012;
 }
 
-.panel-title,
-.floor-header {
+.panel-title, .floor-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -57,8 +47,7 @@ main {
   margin-bottom: 15px;
 }
 
-.panel-title h2,
-.floor-header h2 {
+.panel-title h2, .floor-header h2 {
   margin: 0;
   font-size: 21px;
 }
@@ -72,14 +61,42 @@ button {
   cursor: pointer;
 }
 
-.mode-button {
+.mode-button, .map-control, .back-button {
   background: #e8eee8;
   color: #315340;
 }
 
-.mode-button.active {
+.mode-button.active, .floor-button.active {
   background: #315b42;
   color: white;
+}
+
+.map-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.map-controls {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.map-controls button {
+  min-width: 42px;
+  background: #e8eee8;
+  color: #315340;
+}
+
+#zoomLevel {
+  min-width: 48px;
+  text-align: center;
+  font-size: 13px;
+  color: #647368;
 }
 
 #mapArea {
@@ -88,22 +105,23 @@ button {
   border-radius: 12px;
   background: #d4edbb;
   perspective: 1200px;
+  touch-action: none;
+  cursor: grab;
+  position: relative;
 }
+
+#mapArea.dragging { cursor: grabbing; }
 
 #campusMap {
   width: 100%;
   display: block;
   transform-origin: center center;
-  transition: transform .5s ease;
+  transition: none;
+  will-change: transform;
+  user-select: none;
 }
 
-#mapArea.mode3d #campusMap {
-  transform: rotateX(35deg) scale(.94);
-}
-
-.building {
-  cursor: pointer;
-}
+.building { cursor: pointer; }
 
 .building:hover {
   filter: brightness(1.08) drop-shadow(0 5px 5px #0005);
@@ -128,14 +146,7 @@ button {
   margin-top: 20px;
 }
 
-#floorScreen.visible {
-  display: block;
-}
-
-.back-button {
-  background: #e8eee8;
-  color: #315340;
-}
+#floorScreen.visible { display: block; }
 
 .floor-buttons {
   display: flex;
@@ -147,11 +158,6 @@ button {
 .floor-button {
   background: #e8eee8;
   color: #315340;
-}
-
-.floor-button.active {
-  background: #315b42;
-  color: white;
 }
 
 #floorPlan {
@@ -189,21 +195,10 @@ button {
   font-weight: bold;
 }
 
-.facility.stairs {
-  background: #d7dce0;
-}
-
-.facility.women {
-  background: #f6dce8;
-}
-
-.facility.men {
-  background: #dce9f7;
-}
-
-.facility.elevator {
-  background: #e9e1f4;
-}
+.facility.stairs { background: #d7dce0; }
+.facility.women { background: #f6dce8; }
+.facility.men { background: #dce9f7; }
+.facility.elevator { background: #e9e1f4; }
 
 .corridor {
   display: flex;
@@ -243,18 +238,14 @@ button {
 .room.purple { background: #e9e0f3; }
 .room.gray { background: #e0e2df; color: #6c746e; }
 
-.room.large {
-  min-height: 220px;
-}
+.room.large { min-height: 220px; }
 
 .room-stack {
   display: grid;
   grid-template-rows: 1fr 1fr;
 }
 
-.room-stack .room {
-  min-height: 100px;
-}
+.room-stack .room { min-height: 100px; }
 
 .generic-plan {
   max-width: 750px;
@@ -268,12 +259,9 @@ button {
   grid-template-columns: repeat(3, 1fr);
 }
 
-.generic-rooms .room {
-  min-height: 160px;
-}
+.generic-rooms .room { min-height: 160px; }
 
-.notice,
-.floor-message {
+.notice, .floor-message {
   padding: 28px 15px;
   margin-top: 15px;
   border-radius: 10px;
@@ -292,40 +280,14 @@ button {
 }
 
 @media (max-width: 600px) {
-  main {
-    width: 94%;
-    margin: 14px auto;
-  }
-
-  .panel {
-    padding: 12px;
-  }
-
-  header h1 {
-    font-size: 20px;
-  }
-
-  .facility {
-    font-size: 10px;
-    padding: 5px 1px;
-  }
-
-  .plan-facilities {
-    min-height: 85px;
-  }
-
-  .room {
-    font-size: 11px;
-    padding: 5px;
-  }
-
-  .plan-lower {
-    min-height: 170px;
-  }
-
-  .room.large {
-    min-height: 170px;
-  }
+  main { width: 94%; margin: 14px auto; }
+  .panel { padding: 12px; }
+  header h1 { font-size: 20px; }
+  .facility { font-size: 10px; padding: 5px 1px; }
+  .plan-facilities { min-height: 85px; }
+  .room { font-size: 11px; padding: 5px; }
+  .plan-lower { min-height: 170px; }
+  .room.large { min-height: 170px; }
 }
 </style>
 </head>
@@ -343,7 +305,6 @@ button {
 
   <div class="panel-title">
     <h2>キャンパスマップ</h2>
-
     <div>
       <button class="mode-button active" id="mode2d"
         onclick="changeMode('2d')">2D</button>
@@ -352,10 +313,19 @@ button {
     </div>
   </div>
 
+  <div class="map-toolbar">
+    <div class="map-controls">
+      <button class="map-control" onclick="zoomMap(1.25)">＋</button>
+      <button class="map-control" onclick="zoomMap(0.8)">－</button>
+      <span id="zoomLevel">100%</span>
+      <button class="map-control" onclick="resetMap()">リセット</button>
+    </div>
+    <span class="map-hint">ドラッグで移動・ホイールで拡大縮小</span>
+  </div>
+
   <div id="mapArea">
 
-    <svg id="campusMap"
-      viewBox="0 0 1536 1024"
+    <svg id="campusMap" viewBox="0 0 1536 1024"
       xmlns="http://www.w3.org/2000/svg">
 
       <defs>
@@ -382,79 +352,80 @@ button {
         </filter>
       </defs>
 
-      <!-- 全体の地面 -->
+      <!-- 地面 -->
       <rect width="1536" height="1024" fill="url(#grass)"/>
 
-      <!-- 上部の敷地 -->
-      <rect x="180" y="60" width="1320" height="290"
+      <!-- 上側の校舎エリア -->
+      <rect x="180" y="60" width="1320" height="340"
         rx="25" fill="#e7e3d9"/>
 
-      <!-- 左上体育館周辺 -->
+      <!-- 体育館周辺 -->
       <rect x="180" y="65" width="340" height="280"
         rx="35" fill="#eee9dc"/>
 
       <!-- 左側の斜め道路 -->
-      <path d="M145 0 L238 0 L112 376 L0 376 Z"
+      <path d="M145 0 L238 0 L112 430 L0 430 Z"
         fill="#999c9b"/>
-      <path d="M145 0 L238 0 L112 376 L0 376"
+      <path d="M145 0 L238 0 L112 430 L0 430"
         fill="none" stroke="#f7f5ed" stroke-width="10"/>
 
       <!-- 横断道路 -->
-      <path d="M115 345 L1518 345 L1518 423
-        L115 423 Z" fill="#999c9b"/>
+      <path d="M115 400 L1518 400 L1518 478
+        L115 478 Z" fill="#999c9b"/>
 
-      <!-- 道路の白線 -->
-      <path d="M180 382 H1505"
+      <path d="M180 439 H1505"
         stroke="#ffffff" stroke-width="3"
         stroke-dasharray="25 18"/>
 
       <!-- 横断歩道 -->
       <g fill="white">
-        <rect x="120" y="355" width="44" height="9"/>
-        <rect x="120" y="373" width="44" height="9"/>
-        <rect x="120" y="391" width="44" height="9"/>
-        <rect x="120" y="409" width="44" height="9"/>
+        <rect x="120" y="410" width="44" height="9"/>
+        <rect x="120" y="428" width="44" height="9"/>
+        <rect x="120" y="446" width="44" height="9"/>
+        <rect x="120" y="464" width="44" height="9"/>
       </g>
 
-      <!-- 道路の下側の歩道 -->
-      <path d="M115 423 H1518 V950 H115 Z"
+      <!-- 道路下側の歩道 -->
+      <path d="M115 478 H1518 V950 H115 Z"
         fill="none" stroke="#e8e5d9" stroke-width="15"/>
 
       <!-- 左下の緑地 -->
-      <rect x="175" y="423" width="373" height="493"
+      <rect x="175" y="480" width="373" height="436"
         rx="18" fill="url(#grass)"/>
 
       <!-- グラウンド -->
       <g class="building" onclick="openBuilding('グラウンド')">
-        <rect x="561" y="423" width="946" height="496"
+        <rect x="561" y="480" width="946" height="439"
           rx="13" fill="#639f56" opacity=".35"/>
-        <rect x="561" y="423" width="946" height="496"
+        <rect x="561" y="480" width="946" height="439"
           rx="13" fill="url(#field)"
           stroke="#6da85b" stroke-width="3"/>
 
-        <!-- サッカーコート -->
-        <rect x="609" y="449" width="849" height="438"
+        <rect x="609" y="500" width="849" height="398"
           fill="none" stroke="#f8fff2" stroke-width="7"/>
 
-        <path d="M1055 449 V887"
+        <path d="M1055 500 V898"
           stroke="white" stroke-width="7"/>
 
-        <circle cx="1055" cy="668" r="75"
+        <circle cx="1055" cy="699" r="75"
           fill="none" stroke="white" stroke-width="7"/>
 
-        <rect x="609" y="533" width="117" height="270"
-          fill="none" stroke="white" stroke-width="7"/>
-        <rect x="609" y="600" width="39" height="142"
+        <rect x="609" y="574" width="117" height="250"
           fill="none" stroke="white" stroke-width="7"/>
 
-        <rect x="1342" y="533" width="116" height="270"
-          fill="none" stroke="white" stroke-width="7"/>
-        <rect x="1420" y="600" width="38" height="142"
+        <rect x="609" y="632" width="39" height="135"
           fill="none" stroke="white" stroke-width="7"/>
 
-        <path d="M726 602 A75 75 0 0 1 726 734"
+        <rect x="1342" y="574" width="116" height="250"
           fill="none" stroke="white" stroke-width="7"/>
-        <path d="M1342 602 A75 75 0 0 0 1342 734"
+
+        <rect x="1420" y="632" width="38" height="135"
+          fill="none" stroke="white" stroke-width="7"/>
+
+        <path d="M726 640 A75 75 0 0 1 726 758"
+          fill="none" stroke="white" stroke-width="7"/>
+
+        <path d="M1342 640 A75 75 0 0 0 1342 758"
           fill="none" stroke="white" stroke-width="7"/>
       </g>
 
@@ -462,28 +433,20 @@ button {
       <g class="building" onclick="openBuilding('体育館')"
         filter="url(#shadow)">
 
-        <!-- 建物の側面 -->
-        <polygon points="206,111 460,111 460,330 206,330"
+        <rect x="206" y="111" width="254" height="219"
           fill="#b7c9e0"/>
-        <polygon points="460,111 504,116 504,280 460,280"
-          fill="#c7d7e9"/>
 
-        <!-- 本体 -->
         <rect x="249" y="83" width="211" height="216"
-          fill="#edf2fb" stroke="#819ab9" stroke-width="3"/>
-
-        <polygon points="249,83 460,83 460,299 249,299"
           fill="#f2f5fc" stroke="#819ab9" stroke-width="3"/>
 
-        <polygon points="206,111 249,111 249,280 206,280"
+        <rect x="206" y="111" width="43" height="169"
           fill="#e7eef9" stroke="#819ab9" stroke-width="3"/>
 
-        <polygon points="460,117 504,117 504,262 460,262"
+        <rect x="460" y="117" width="44" height="145"
           fill="#e7eef9" stroke="#819ab9" stroke-width="3"/>
 
-        <polygon points="249,299 460,299 460,330 249,330"
+        <rect x="249" y="299" width="211" height="31"
           fill="#a9bfd9"/>
-
       </g>
 
       <!-- 4号館：左側縦長 -->
@@ -502,7 +465,7 @@ button {
         <text x="679" y="197">4号館</text>
       </g>
 
-      <!-- 2号館：上段中央左 -->
+      <!-- 2号館 -->
       <g class="building" onclick="openBuilding('2号館')"
         filter="url(#shadow)">
 
@@ -518,7 +481,7 @@ button {
         <text x="872" y="122">2号館</text>
       </g>
 
-      <!-- 高校校舎：上段中央右 -->
+      <!-- 高校校舎 -->
       <g class="building" onclick="openBuilding('高校校舎')"
         filter="url(#shadow)">
 
@@ -534,7 +497,7 @@ button {
         <text x="1145" y="122">高校校舎</text>
       </g>
 
-      <!-- 礼拝堂：右端縦長 -->
+      <!-- 礼拝堂 -->
       <g class="building" onclick="openBuilding('礼拝堂')"
         filter="url(#shadow)">
 
@@ -550,36 +513,81 @@ button {
         <text x="1373" y="190">礼拝堂</text>
       </g>
 
-      <!-- 中学校舎：中央左 -->
+      <!-- 中庭の地面 -->
+      <g>
+        <rect x="755" y="178" width="535" height="88"
+          rx="12" fill="#c9d7b5" stroke="#a6b99b" stroke-width="3"/>
+
+        <!-- 中央広場 -->
+        <rect x="865" y="190" width="320" height="62"
+          rx="8" fill="#e5dfc9"/>
+
+        <!-- 中庭の小道 -->
+        <path d="M755 221 H865 M1185 221 H1290"
+          stroke="#eee8d5" stroke-width="13"/>
+
+        <path d="M1025 190 V252"
+          stroke="#d2c9ad" stroke-width="3" stroke-dasharray="5 5"/>
+
+        <!-- 植え込み -->
+        <rect x="775" y="190" width="65" height="62"
+          rx="12" fill="#8dbb78"/>
+        <rect x="1205" y="190" width="65" height="62"
+          rx="12" fill="#8dbb78"/>
+
+        <!-- 木 -->
+        <circle cx="807" cy="220" r="18" fill="#5e9b50"/>
+        <circle cx="1237" cy="220" r="18" fill="#5e9b50"/>
+        <circle cx="807" cy="215" r="9" fill="#8bc878"/>
+        <circle cx="1237" cy="215" r="9" fill="#8bc878"/>
+
+        <!-- ベンチ -->
+        <rect x="915" y="197" width="55" height="8"
+          rx="3" fill="#96734e"/>
+        <rect x="915" y="210" width="55" height="8"
+          rx="3" fill="#b18b60"/>
+
+        <rect x="1080" y="225" width="55" height="8"
+          rx="3" fill="#96734e"/>
+        <rect x="1080" y="238" width="55" height="8"
+          rx="3" fill="#b18b60"/>
+
+        <text x="1025" y="230"
+          text-anchor="middle"
+          font-size="20" font-weight="bold"
+          fill="#64765b">中 庭</text>
+      </g>
+
+      <!-- 中学校舎 -->
       <g class="building" onclick="openBuilding('中学校舎')"
         filter="url(#shadow)">
 
-        <polygon points="755,192 1019,192 1038,210 1038,303 755,303"
+        <polygon points="755,285 1019,285 1038,303 1038,395 755,395"
           fill="#91b18e"/>
 
-        <polygon points="755,192 1019,192 1019,282 755,282"
+        <polygon points="755,285 1019,285 1019,374 755,374"
           fill="#d2e8ca" stroke="#9ab993" stroke-width="3"/>
 
-        <polygon points="1019,192 1038,210 1038,303 1019,282"
+        <polygon points="1019,285 1038,303 1038,395 1019,374"
           fill="#a9c69e"/>
 
-        <text x="887" y="247">中学校舎</text>
+        <text x="887" y="342">中学校舎</text>
       </g>
 
-      <!-- 本館：中央右 -->
+      <!-- 本館 -->
       <g class="building" onclick="openBuilding('本館')"
         filter="url(#shadow)">
 
-        <polygon points="1058,193 1275,193 1292,211 1292,301 1058,301"
+        <polygon points="1058,285 1275,285 1292,303 1292,395 1058,395"
           fill="#8fa8cb"/>
 
-        <polygon points="1058,193 1275,193 1275,282 1058,282"
+        <polygon points="1058,285 1275,285 1275,374 1058,374"
           fill="#c5d7f1" stroke="#91a9cb" stroke-width="3"/>
 
-        <polygon points="1275,193 1292,211 1292,301 1275,282"
+        <polygon points="1275,285 1292,303 1292,395 1275,374"
           fill="#a9bedc"/>
 
-        <text x="1170" y="247">本館</text>
+        <text x="1170" y="342">本館</text>
       </g>
 
       <!-- 木 -->
@@ -591,18 +599,19 @@ button {
         <circle cx="265" cy="324" r="18"/>
         <circle cx="359" cy="324" r="18"/>
         <circle cx="447" cy="324" r="18"/>
-        <circle cx="666" cy="321" r="18"/>
-        <circle cx="738" cy="321" r="18"/>
-        <circle cx="1047" cy="321" r="18"/>
-        <circle cx="1139" cy="321" r="18"/>
-        <circle cx="1474" cy="321" r="18"/>
 
-        <circle cx="113" cy="509" r="18"/>
-        <circle cx="113" cy="570" r="18"/>
-        <circle cx="113" cy="631" r="18"/>
-        <circle cx="113" cy="694" r="18"/>
-        <circle cx="113" cy="760" r="18"/>
-        <circle cx="113" cy="817" r="18"/>
+        <circle cx="666" cy="375" r="18"/>
+        <circle cx="738" cy="375" r="18"/>
+        <circle cx="1047" cy="375" r="18"/>
+        <circle cx="1139" cy="375" r="18"/>
+        <circle cx="1474" cy="375" r="18"/>
+
+        <circle cx="113" cy="535" r="18"/>
+        <circle cx="113" cy="596" r="18"/>
+        <circle cx="113" cy="657" r="18"/>
+        <circle cx="113" cy="720" r="18"/>
+        <circle cx="113" cy="786" r="18"/>
+        <circle cx="113" cy="843" r="18"/>
 
         <circle cx="198" cy="913" r="18"/>
         <circle cx="264" cy="913" r="18"/>
@@ -611,7 +620,6 @@ button {
         <circle cx="457" cy="913" r="18"/>
       </g>
 
-      <!-- 木のハイライト -->
       <g fill="#82c36c">
         <circle cx="239" cy="64" r="9"/>
         <circle cx="479" cy="69" r="9"/>
@@ -620,17 +628,17 @@ button {
         <circle cx="260" cy="318" r="9"/>
         <circle cx="354" cy="318" r="9"/>
         <circle cx="442" cy="318" r="9"/>
-        <circle cx="661" cy="315" r="9"/>
-        <circle cx="733" cy="315" r="9"/>
-        <circle cx="1042" cy="315" r="9"/>
-        <circle cx="1134" cy="315" r="9"/>
-        <circle cx="1469" cy="315" r="9"/>
-        <circle cx="108" cy="503" r="9"/>
-        <circle cx="108" cy="564" r="9"/>
-        <circle cx="108" cy="625" r="9"/>
-        <circle cx="108" cy="688" r="9"/>
-        <circle cx="108" cy="754" r="9"/>
-        <circle cx="108" cy="811" r="9"/>
+        <circle cx="661" cy="369" r="9"/>
+        <circle cx="733" cy="369" r="9"/>
+        <circle cx="1042" cy="369" r="9"/>
+        <circle cx="1134" cy="369" r="9"/>
+        <circle cx="1469" cy="369" r="9"/>
+        <circle cx="108" cy="529" r="9"/>
+        <circle cx="108" cy="590" r="9"/>
+        <circle cx="108" cy="651" r="9"/>
+        <circle cx="108" cy="714" r="9"/>
+        <circle cx="108" cy="780" r="9"/>
+        <circle cx="108" cy="837" r="9"/>
         <circle cx="193" cy="907" r="9"/>
         <circle cx="259" cy="907" r="9"/>
         <circle cx="322" cy="907" r="9"/>
@@ -643,6 +651,7 @@ button {
 
   <p class="map-hint">
     校舎をクリックすると、その校舎の1階を表示します。
+    マップはドラッグや拡大縮小で自由に操作できます。
   </p>
 
 </section>
@@ -676,23 +685,176 @@ const buildingFloors = {
 let currentBuilding = "";
 let currentFloor = 1;
 
+let mapZoom = 1;
+let mapX = 0;
+let mapY = 0;
+let map3d = false;
+
+let dragging = false;
+let dragMoved = false;
+let startX = 0;
+let startY = 0;
+let suppressClick = false;
+
+const mapArea = document.getElementById("mapArea");
+const campusMap = document.getElementById("campusMap");
+
+function updateMap() {
+  const angle = map3d ? 32 : 0;
+
+  campusMap.style.transform =
+    `translate(${mapX}px, ${mapY}px) scale(${mapZoom}) rotateX(${angle}deg)`;
+
+  document.getElementById("zoomLevel").textContent =
+    Math.round(mapZoom * 100) + "%";
+}
+
 function changeMode(mode) {
-  const mapArea = document.getElementById("mapArea");
+  map3d = mode === "3d";
 
   document.getElementById("mode2d").classList.toggle(
-    "active", mode === "2d"
+    "active", !map3d
   );
 
   document.getElementById("mode3d").classList.toggle(
-    "active", mode === "3d"
+    "active", map3d
   );
 
-  mapArea.classList.toggle("mode3d", mode === "3d");
+  updateMap();
 }
 
+function zoomMap(amount, centerX = null, centerY = null) {
+  const oldZoom = mapZoom;
+  const newZoom = Math.max(0.7, Math.min(4, oldZoom * amount));
+
+  if (centerX !== null && centerY !== null) {
+    const rect = mapArea.getBoundingClientRect();
+
+    const px = centerX - (rect.left + rect.width / 2);
+    const py = centerY - (rect.top + rect.height / 2);
+
+    mapX = px - (px - mapX) * (newZoom / oldZoom);
+    mapY = py - (py - mapY) * (newZoom / oldZoom);
+  }
+
+  mapZoom = newZoom;
+  updateMap();
+}
+
+function resetMap() {
+  mapZoom = 1;
+  mapX = 0;
+  mapY = 0;
+  updateMap();
+}
+
+/* マウスホイール・タッチパッド */
+mapArea.addEventListener("wheel", (e) => {
+  e.preventDefault();
+
+  const amount = e.deltaY < 0 ? 1.1 : 0.9;
+
+  zoomMap(amount, e.clientX, e.clientY);
+}, { passive: false });
+
+/* ドラッグによる移動 */
+mapArea.addEventListener("pointerdown", (e) => {
+  if (e.button !== 0 && e.pointerType === "mouse") return;
+
+  dragging = true;
+  dragMoved = false;
+
+  startX = e.clientX - mapX;
+  startY = e.clientY - mapY;
+
+  mapArea.classList.add("dragging");
+});
+
+mapArea.addEventListener("pointermove", (e) => {
+  if (!dragging) return;
+
+  const nextX = e.clientX - startX;
+  const nextY = e.clientY - startY;
+
+  if (Math.abs(nextX - mapX) > 2 ||
+      Math.abs(nextY - mapY) > 2) {
+    dragMoved = true;
+  }
+
+  mapX = nextX;
+  mapY = nextY;
+
+  updateMap();
+});
+
+function stopDragging() {
+  if (!dragging) return;
+
+  dragging = false;
+  mapArea.classList.remove("dragging");
+
+  if (dragMoved) {
+    suppressClick = true;
+  }
+}
+
+mapArea.addEventListener("pointerup", stopDragging);
+mapArea.addEventListener("pointercancel", stopDragging);
+
+/* ドラッグ直後に建物がクリックされないようにする */
+campusMap.addEventListener("click", (e) => {
+  if (suppressClick) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    suppressClick = false;
+  }
+}, true);
+
+/* スマホのピンチ操作 */
+let pinchStartDistance = 0;
+let pinchStartZoom = 1;
+
+mapArea.addEventListener("touchstart", (e) => {
+  if (e.touches.length === 2) {
+    pinchStartDistance = Math.hypot(
+      e.touches[0].clientX - e.touches[1].clientX,
+      e.touches[0].clientY - e.touches[1].clientY
+    );
+
+    pinchStartZoom = mapZoom;
+  }
+}, { passive: true });
+
+mapArea.addEventListener("touchmove", (e) => {
+  if (e.touches.length !== 2) return;
+
+  e.preventDefault();
+
+  const distance = Math.hypot(
+    e.touches[0].clientX - e.touches[1].clientX,
+    e.touches[0].clientY - e.touches[1].clientY
+  );
+
+  if (pinchStartDistance > 0) {
+    const centerX =
+      (e.touches[0].clientX + e.touches[1].clientX) / 2;
+
+    const centerY =
+      (e.touches[0].clientY + e.touches[1].clientY) / 2;
+
+    const targetZoom = Math.max(
+      0.7,
+      Math.min(4, pinchStartZoom * distance / pinchStartDistance)
+    );
+
+    const amount = targetZoom / mapZoom;
+    zoomMap(amount, centerX, centerY);
+  }
+}, { passive: false });
+
+/* 建物をクリックしたとき */
 function openBuilding(name) {
 
-  // 体育館・グラウンドは内部表示なし
   if (name === "体育館" || name === "グラウンド") {
     return;
   }
@@ -730,14 +892,12 @@ function openBuilding(name) {
 }
 
 function createFloorButtons() {
-
   const count = buildingFloors[currentBuilding];
   const area = document.getElementById("floorButtons");
 
   area.innerHTML = "";
 
   for (let i = 1; i <= count; i++) {
-
     const button = document.createElement("button");
 
     button.className =
@@ -745,7 +905,6 @@ function createFloorButtons() {
 
     button.textContent = i + "階";
     button.id = "floorButton" + i;
-
     button.onclick = () => showFloor(i);
 
     area.appendChild(button);
@@ -753,7 +912,6 @@ function createFloorButtons() {
 }
 
 function showFloor(floor) {
-
   currentFloor = floor;
 
   document.querySelectorAll(".floor-button").forEach(button => {
@@ -763,9 +921,7 @@ function showFloor(floor) {
   const activeButton =
     document.getElementById("floorButton" + floor);
 
-  if (activeButton) {
-    activeButton.classList.add("active");
-  }
+  if (activeButton) activeButton.classList.add("active");
 
   const plan = document.getElementById("floorPlan");
 
@@ -777,48 +933,36 @@ function showFloor(floor) {
 }
 
 /* 中学校舎の間取り */
-
 function middleSchoolPlan(floor) {
-
   let lower = "";
 
   if (floor === 1) {
-
     lower = `
       <div class="plan-lower"
         style="grid-template-columns:1fr 1fr 1fr 1fr 1fr;">
-
         <div class="room storage">下駄箱</div>
         <div class="room pink">テキスト挿入予定</div>
         <div class="room blue">テキスト挿入予定</div>
         <div class="room yellow">テキスト挿入予定</div>
         <div class="room green">テキスト挿入予定</div>
-
       </div>`;
   }
 
   if (floor === 2) {
-
     lower = `
       <div class="plan-lower" style="grid-template-columns:1fr;">
-        <div class="room green large">
-          テキスト挿入予定
-        </div>
+        <div class="room green large">テキスト挿入予定</div>
       </div>`;
   }
 
   if (floor === 3) {
-
     lower = `
       <div class="plan-lower" style="grid-template-columns:1fr;">
-        <div class="room pink large">
-          テキスト挿入予定
-        </div>
+        <div class="room pink large">テキスト挿入予定</div>
       </div>`;
   }
 
   if (floor === 4) {
-
     lower = `
       <div class="plan-lower"
         style="grid-template-columns:1fr 1fr 1fr 1fr 1fr;">
@@ -841,22 +985,18 @@ function middleSchoolPlan(floor) {
         </div>
 
         <div class="room gray">使用しない</div>
-
       </div>`;
   }
 
   return `
     <div class="school-plan">
-
       <div class="plan-facilities">
-
         <div class="facility stairs">階段</div>
         <div class="facility women">女子トイレ</div>
         <div class="facility elevator">エレベーター</div>
         <div class="facility men">男子トイレ</div>
         <div class="facility">通路</div>
         <div class="facility stairs">階段</div>
-
       </div>
 
       <div class="corridor">
@@ -864,38 +1004,29 @@ function middleSchoolPlan(floor) {
       </div>
 
       ${lower}
-
     </div>`;
 }
 
-/* その他の校舎は仮の間取り */
-
+/* その他の校舎の仮の間取り */
 function genericPlan(name, floor) {
-
   return `
     <div class="generic-plan">
-
       <div class="plan-facilities">
-
         <div class="facility stairs">階段</div>
         <div class="facility">教室</div>
         <div class="facility">教室</div>
         <div class="facility">教室</div>
         <div class="facility">教室</div>
         <div class="facility stairs">階段</div>
-
       </div>
 
-      <div class="corridor">
-        ${name} ${floor}F
-      </div>
+      <div class="corridor">${name} ${floor}F</div>
 
       <div class="generic-rooms">
         <div class="room pink">教室</div>
         <div class="room blue">教室</div>
         <div class="room yellow">教室</div>
       </div>
-
     </div>
 
     <p class="map-hint">
@@ -904,7 +1035,6 @@ function genericPlan(name, floor) {
 }
 
 function backToMap() {
-
   document.getElementById("floorScreen").classList.remove("visible");
   document.getElementById("mapScreen").style.display = "block";
 
@@ -912,6 +1042,8 @@ function backToMap() {
   document.getElementById("floorPlan").innerHTML = "";
   document.getElementById("specialNotice").innerHTML = "";
 }
+
+updateMap();
 
 </script>
 
