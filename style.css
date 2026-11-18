@@ -1,1 +1,170 @@
+:root {
+  --bg: #f6f4ef;
+  --ink: #2b2b2b;
+  --accent: #e4572e;
+  --line: #444;
+  --muted: #666;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: "Hiragino Sans", "Yu Gothic", Meiryo, system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.5;
+}
+button { font: inherit; color: inherit; }
 
+/* ---------- ヘッダー ---------- */
+.top {
+  position: sticky; top: 0; z-index: 10;
+  background: var(--accent); color: #fff;
+  padding: 10px 14px 12px;
+  box-shadow: 0 2px 6px #0003;
+}
+.top h1 { font-size: 1.1rem; margin: 0 0 8px; }
+.search input {
+  width: 100%; padding: 10px 14px;
+  border: 0; border-radius: 999px; font-size: 1rem;
+}
+
+main { max-width: 960px; margin: 0 auto; padding: 14px; }
+footer { text-align: center; color: var(--muted); font-size: .8rem; padding: 18px 14px 28px; }
+.hint { color: var(--muted); font-size: .9rem; margin: 4px 0 10px; }
+
+/* ---------- 全体マップ ---------- */
+.overview {
+  width: 100%; height: auto; display: block;
+  background: #fff; border: 2px solid var(--line); border-radius: 14px;
+}
+.bld, .spot { cursor: pointer; }
+.bld:hover, .spot:hover { filter: brightness(.94); }
+.bld:focus, .spot:focus { outline: none; }
+.bld:focus-visible .face, .spot:focus-visible .face { stroke: var(--accent); stroke-width: 3.5; }
+.ov-t { font-weight: 700; fill: #1b1b1b; text-anchor: middle; pointer-events: none; font-family: inherit; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0; padding: 0; list-style: none; font-size: .85rem; }
+.legend li { display: flex; align-items: center; gap: 6px; }
+.legend i { width: 14px; height: 14px; border: 1.5px solid var(--line); border-radius: 3px; display: inline-block; }
+
+/* ---------- 建物ビュー ---------- */
+.nav { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.nav h2 { margin: 0; font-size: 1.3rem; }
+.back {
+  border: 2px solid var(--accent); background: #fff; color: var(--accent);
+  border-radius: 999px; padding: 6px 14px; cursor: pointer; font-weight: 700;
+}
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin: 12px 0; }
+.tab {
+  padding: 8px 18px; border-radius: 999px; border: 2px solid var(--accent);
+  background: #fff; cursor: pointer; font-weight: 700;
+}
+.tab.on { background: var(--accent); color: #fff; }
+
+/* 廊下型フロア */
+.plan {
+  display: flex; flex-direction: column;
+  background: #fff; border: 2px solid var(--line); border-radius: 12px; padding: 8px;
+}
+.side { display: flex; gap: 6px; }
+.corridor {
+  display: flex; align-items: center; justify-content: center;
+  height: 44px; margin: 6px 0; border-radius: 6px;
+  color: #a39d8e; font-size: .8rem; letter-spacing: .4em;
+  background: repeating-linear-gradient(45deg, #f2efe8, #f2efe8 8px, #ece8de 8px, #ece8de 16px);
+}
+.cell {
+  flex: 1 1 0; min-width: 0; min-height: 96px;
+  border: 2px solid var(--line); border-radius: 8px; background: #fff;
+  padding: 6px 4px; cursor: pointer; text-align: center;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+}
+.cell:hover { filter: brightness(.95); }
+.cell:focus-visible { outline: 3px solid var(--accent); }
+.cell .ic { font-size: 1.2rem; line-height: 1; }
+.cell .lb { font-weight: 700; font-size: .95rem; }
+.cell .bn {
+  font-size: .78rem; color: #555;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.t-room   { background: #fff; }
+.t-booth  { background: #fff1d6; }
+.t-stage  { background: #ffd9e8; }
+.t-toilet { background: #def0fb; }
+.t-stairs { background: #e6e6e6; }
+.t-entrance { background: #d9f2d9; }
+.t-rest   { background: #fff7bf; }
+.t-service { background: #e8e8ff; }
+
+/* 中庭型 */
+.yard {
+  background: #e9f4df; border: 2px dashed #7aa36a; border-radius: 16px; padding: 10px;
+}
+.stage-row .cell { width: 100%; min-height: 90px; }
+.grid {
+  display: grid; gap: 8px; margin-top: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+}
+
+/* 出し物リスト */
+.list-title { font-size: 1rem; margin: 22px 0 8px; }
+.list { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+.list button {
+  width: 100%; text-align: left; background: #fff;
+  border: 1.5px solid #d8d2c4; border-radius: 10px; padding: 10px 12px; cursor: pointer;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.list button:hover { border-color: var(--accent); }
+.list b { font-size: .95rem; }
+.list span { font-size: .85rem; color: var(--muted); }
+
+#results h2 { font-size: 1rem; margin: 0 0 8px; }
+#results { margin-bottom: 18px; }
+
+/* ---------- 詳細シート ---------- */
+.sheet-wrap {
+  position: fixed; inset: 0; z-index: 50; background: #0006;
+  display: flex; align-items: flex-end; justify-content: center;
+}
+.sheet-wrap[hidden] { display: none; }
+.sheet {
+  position: relative; width: 100%; max-width: 560px; max-height: 88vh; overflow: auto;
+  background: #fff; border-radius: 18px 18px 0 0; padding: 22px 20px 28px;
+  animation: up .2s ease-out;
+}
+@keyframes up { from { transform: translateY(40px); opacity: .4; } to { transform: none; opacity: 1; } }
+.close {
+  position: absolute; top: 10px; right: 12px; width: 36px; height: 36px;
+  border: 0; border-radius: 50%; background: #eee; cursor: pointer; font-size: 1rem;
+}
+.sheet .where { margin: 0; color: var(--muted); font-size: .85rem; }
+.sheet h2 { margin: 2px 40px 2px 0; font-size: 1.4rem; }
+.sheet .tag {
+  display: inline-block; font-size: .75rem; background: #eee; border-radius: 999px; padding: 1px 10px; margin-bottom: 8px;
+}
+.sheet .booth { font-size: 1.15rem; font-weight: 700; color: var(--accent); margin: 8px 0 4px; }
+.sheet .desc { margin: 4px 0 12px; white-space: pre-wrap; }
+.sheet img { width: 100%; height: auto; border-radius: 12px; display: block; }
+@media (min-width: 700px) {
+  .sheet-wrap { align-items: center; }
+  .sheet { border-radius: 18px; }
+}
+
+/* ---------- スマホ: 廊下を縦にする ---------- */
+@media (max-width: 600px) {
+  .plan { flex-direction: row; }
+  .side { flex-direction: column; flex: 1; }
+  .corridor {
+    height: auto; width: 30px; margin: 0 6px;
+    writing-mode: vertical-rl; letter-spacing: .5em;
+  }
+  .cell { min-height: 72px; }
+}
+
+/* ---------- 平面図 ---------- */
+.planmap { width: 100%; height: auto; display: block; background: #fff; border: 2px solid var(--line); border-radius: 12px; }
+.pi { cursor: pointer; }
+.pi:hover { filter: brightness(.95); }
+.pi:focus { outline: none; }
+.pi.sel .face, .pi:focus-visible .face { stroke: var(--accent); stroke-width: 6; }
+.pt { font-weight: 700; fill: #1b1b1b; text-anchor: middle; pointer-events: none; font-family: inherit; }
